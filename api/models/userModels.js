@@ -43,7 +43,7 @@ const registerValidation= (data) =>{
     const schema = Joi.object({
         firstName: Joi.string().required().min(3).max(20).regex(/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/),
         lastName: Joi.string().required().min(5).max(20).regex(/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{5,20}$/),
-        login: Joi.string().required().min(4).max(20).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{4,20}$/),
+        login: Joi.string().required().min(4).max(20).regex(/^[0-9a-zA-Z]{4,20}$/),
         email: Joi.string().required().email(),
         password: Joi.string().required().min(8).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{8,}$/)
     }) 
@@ -52,11 +52,24 @@ const registerValidation= (data) =>{
 
 const loginValidation= (data) =>{
     const schema = Joi.object({
-        login: Joi.string().required().min(4).max(20).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{4,20}$/),
+        login: Joi.string().required().min(4).max(20).regex(/^[0-9a-zA-Z]{4,20}$/),
         password: Joi.string().required().min(8).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{8,}$/)
     }) 
     return schema.validate(data) 
 }
 
+
+const updateValidation = (data) =>{
+    const schema = Joi.object({
+        firstName: Joi.string().min(3).max(20).regex(/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/),
+        lastName: Joi.string().min(5).max(20).regex(/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{5,20}$/),
+        login: Joi.string().min(4).max(20).regex(/^[0-9a-zA-Z]{4,20}$/),
+        email: Joi.string().email(),
+        password: Joi.string().min(8).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{8,}$/)
+    })
+    return schema.validate(data)
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.updateValidation = updateValidation;
