@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const VolunteerController= require('../controllers/VolunteerController')
+// const Volunteerauth = require('../middleware/VolunteerMiddleware')
 
 //getting one
-router.get('/:id',VolunteerController.getOneVolunteer);
+router.get('/:id', VolunteerController.getOneVolunteer);
 //updating one 
 router.patch('/:id', VolunteerController.updateVolunteer);
 
@@ -21,3 +22,4 @@ router.get ('/:id/Events');
 
 
 module.exports=router
+
