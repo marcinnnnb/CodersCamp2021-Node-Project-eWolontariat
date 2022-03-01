@@ -1,22 +1,21 @@
 const helmet = require('helmet');
 const express = require('express');
 const app = express();
+const eventRouter = require("./api/routes/eventRoutes");
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-app.use((req, res, next) => {
-  const errpr = new Error('Strona o podanym adresie nie istnieje');
-});
+dotenv.config();
 
-mongoose.set('useUnifiedTopology', true);
+app.use('/events', eventRouter);
+
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((error) => {
     console.log('Connection failed', error);
   });
+
+module.exports = app;
