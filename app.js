@@ -27,3 +27,4 @@ app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
 
 module.exports = app;
+
