@@ -47,7 +47,7 @@ exports.getOneComment= async (req,res)=>{
     exports.createComment = async (req, res)=>{
       try{
       const comment = new Comment({
-       author: User.firstName,
+    //    author: User.firstName,
        content:  req.body.content,
        date: Date.now()
        

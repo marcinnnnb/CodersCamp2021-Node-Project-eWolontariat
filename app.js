@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const VolunteerRoutes= require('./api/routes/VolunteerRoutes')
+const CommentRoutes= require('./api/routes/commentsRoutes')
 
 app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
@@ -22,7 +23,8 @@ mongoose
   });
 
   app.use(express.json())
-  app.use('/Volunteer', VolunteerRoutes)
+  app.use('/Volunteer', VolunteerRoutes);
+  app.use('/Comment', CommentRoutes)
 
 module.exports = app;
 

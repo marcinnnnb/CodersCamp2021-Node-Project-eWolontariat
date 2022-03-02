@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Volunteer = require('../Models/VolunteerForm')
 
 
-
-
-
 // Get one volunteer
 exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
@@ -67,6 +64,22 @@ exports.getOneVolunteer= async (req,res)=>{
   }
 
   //Sort by category
+
+  exports.filterByCategory= async (req,res)=> {
+    let filterVolunteer
+  try {
+    // filterVolunteer= await Volunteer.find({Category})
+    filterVolunteer= db.volunteers.find({categories})
+    if(filterVolunteer === null){
+      // return res.status(404).json({message:'Nie ma wolontariuszy w tej kategorii'})
+      return res.send(volunteer)
+    }
+  } catch(err){
+    return res.status(500).json({message:err.message})
+  }
+  res.filterVolunteer=filterVolunteer
+  res.send(filterVolunteer)
+}
 
   //Get comments from volunteer
 

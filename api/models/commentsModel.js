@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const volunteerSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     id: mongoose.Schema.Types.ObjectId,
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +13,8 @@ const volunteerSchema = new mongoose.Schema({
         require: true
     },
     date:{
-        type: date
+        type: Date, 
+        default: Date.now 
     }
     
 })

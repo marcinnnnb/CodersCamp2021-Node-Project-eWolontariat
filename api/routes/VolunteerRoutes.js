@@ -12,7 +12,7 @@ router.patch('/:id', VolunteerController.updateVolunteer);
 router.post ('/', VolunteerController.createVolunteer);
 
 // sort by category
-router.get ('/{category}');
+router.get ('/costam/{category}',VolunteerController.filterByCategory);
 
 //getting comments to particular one
 router.get ('/:id/comments');
