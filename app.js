@@ -1,13 +1,15 @@
 const helmet = require('helmet');
 const express = require('express');
 const app = express();
+const eventRouter = require("./api/routes/eventRoutes");
+const categoryRouter = require("./api/routes/categoryRoutes");
+const Event = require("./api/models/eventModel");
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-dotenv.config();
+const bodyParser = require("body-parser");
+const EventController = require('./api/controllers/eventController');
 
-app.use((req, res, next) => {
-  const errpr = new Error('Strona o podanym adresie nie istnieje');
-});
+dotenv.config();
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -18,4 +20,11 @@ mongoose
     console.log('Connection failed', error);
   });
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use('/event', eventRouter);
+app.use('/category', categoryRouter);
+
 module.exports = app;
+
