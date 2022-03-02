@@ -22,7 +22,7 @@ const eventSchema = new mongoose.Schema({
     },
     shortDescription: {
         type: String,
-        maxLength: 100,
+        maxLength: 200,
         //default: this.description.slice(0,100).concat("..."),
         trim: true
     },
@@ -31,7 +31,8 @@ const eventSchema = new mongoose.Schema({
         default: Date.now
     },
     dateExpired: {
-        type: Date
+        type: Date,
+        default: null
     },
     volunteers: [{
         type: Schema.Types.ObjectId,
@@ -40,7 +41,7 @@ const eventSchema = new mongoose.Schema({
     categories: [{
         type: Schema.Types.ObjectId,
         ref: "Category"
-    }],
+    }], 
     comments: [{
         type: Schema.Types.ObjectId,
         ref: "Comment"

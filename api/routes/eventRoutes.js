@@ -1,33 +1,15 @@
 const express = require('express');
-const Event = require("../models/eventModel");
 const router = express.Router();
+const EventController = require('../controllers/eventController');
 
-router.get('/', (req, res) => {
-    res.send("hello")
-});
-
-router.get('/new', (req, res) => {
-    //res.render('events/new', { event: new Event() });
-    res.send("hi")
-});
-
-router.post('/new', (req, res, next) => {
-    
-});
-
-router.get('/edit/:id', async (req, res) => {
-    const event = await Event.findById(req.params.id);
-    res.render('events/edit', { event: event });
-});
-
-//get Event/:id
-//put Event
-//post Event
-//get Events{category}
-//get Event/Count/:succeeded
-//get Event/:id/volunteers
-//get Event/:id/comments
-
-
+router.get('/', EventController.getAllEvents);
+router.post('/', EventController.saveNewEvent);
+router.get('/:id', EventController.getOneEvent);
+router.put('/:id', EventController.updateEvent);
+router.get('/:id/volunteers', EventController.getAssignedVolunteers);
+router.get('/:id/comments', EventController.getEventComments);
+router.get('/category/:categoryId', EventController.getEventsByCategory);
+router.get('/count/:isSucceeded',EventController.howManyEventsSucceeded);
 
 module.exports = router;
+
