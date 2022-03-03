@@ -10,11 +10,11 @@ exports.registration = async (req,res) => {
      if(error) return res.status(400).send({message:error.message});
  
      const emailExist = await User.findOne({email: req.body.email});
-     if(emailExist) return res.status(400).send({message:'Podany email już istnieje.'})
+     if(emailExist) return res.status(400).send({message:'Dane logowania niepoprawne.'})
 
 
      const loginExist = await User.findOne({login: req.body.login});
-     if(loginExist) return res.status(400).send({message:'Podany login już istnieje.'})
+     if(loginExist) return res.status(400).send({message:'Dane logowania niepoprawne.'})
 
  
      const salt = await bcrypt.genSalt(10);
