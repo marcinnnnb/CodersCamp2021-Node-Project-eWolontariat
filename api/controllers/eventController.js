@@ -45,20 +45,20 @@ exports.howManyEventsSucceeded =  async (req, res) => {
 
 function saveEvent() {
   return async (req, res, next) => {
-      let event = new Event({
-          title: req.body.title,
-          description: req.body.description,
-          owner: req.body.owner,
-          organization: req.body.organization,
-          shortDescription: req.body.shortDescription,
-          dateStarted: req.body.dateStarted,
-          dateExpired: req.body.dateExpired,
-          volunteersNeeded: req.body.volunteersNeeded,
-          isSucceeded: req.body.isSucceeded,
-          categories: req.body.categories,
-          picture: req.body.picture
-      } );
-
+    let event = new Event({
+        title: req.body.title,
+        description: req.body.description,
+        owner: req.body.owner,
+        organization: req.body.organization,
+        shortDescription: req.body.shortDescription,
+        dateStarted: req.body.dateStarted,
+        dateExpired: req.body.dateExpired,
+        volunteersNeeded: req.body.volunteersNeeded,
+        isSucceeded: req.body.isSucceeded,
+        categories: req.body.categories,
+        picture: req.body.picture
+        }) ;
+      
       req.event = event;
   
       event = await event.save().then(
