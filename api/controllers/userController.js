@@ -1,5 +1,5 @@
-const User = require('../models/userModels')
-const  {registerValidation, loginValidation, updateValidation}= require('../models/userModels')
+const User = require('../models/userModel')
+const  {registerValidation, loginValidation, updateValidation}= require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
