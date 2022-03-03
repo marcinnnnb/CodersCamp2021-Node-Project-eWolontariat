@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const VolunteerController= require('../controllers/VolunteerController')
-// const Volunteerauth = require('../middleware/VolunteerMiddleware')
+
 
 //getting one
 router.get('/:id', VolunteerController.getOneVolunteer);
@@ -18,10 +18,10 @@ router.post ('/', VolunteerController.createVolunteer);
 // sort by category
 router.get ('/category/:categoryId',VolunteerController.filterByCategory)
 //getting comments to particular one
-router.get ('/:id/comments');
+router.get ('/:id/comments',VolunteerController.getVolunteerComments);
 
 //getting events 
-router.get ('/:id/Events');
+router.get ('/:id/events',VolunteerController.getVolunteerEvents);
 
 
 module.exports=router

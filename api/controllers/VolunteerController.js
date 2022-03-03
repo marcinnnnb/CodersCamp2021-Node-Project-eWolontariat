@@ -56,7 +56,7 @@ exports.allVolunteers = async (req, res, next) => {
   exports.createVolunteer = async (req, res)=>{
     try{
     const volunteer = new Volunteer({
-     user:req.body.user,
+    //  user:req.body.user,
      categories:  req.body.categories,
      description: req.body.description
     })
@@ -88,5 +88,16 @@ exports.allVolunteers = async (req, res, next) => {
 
 
   //Get comments from volunteer
-
-  //get Events from volunteer. 
+  
+  exports.getVolunteerComments = async (req, res) => {
+    req.volunteer = await Volunteer.findById(req.params.id);
+    let volunteer = req.volunteer;
+    res.send(volunteer.comments);
+  };
+  //get Volunteers from volunteer. 
+  
+  exports.getVolunteerEvents = async (req, res) => {
+    let volunteersEvents;
+    volunteersEvents = await Volunteer.findById(req.params.id);
+    res.send(volunteersEvents.events);
+  };
