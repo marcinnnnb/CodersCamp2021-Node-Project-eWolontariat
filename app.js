@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require("body-parser");
 const EventController = require('./api/controllers/eventController');
+const UserController = require('./api/controllers/userControllers');
 const userRouter = require("./api/routes/userRoutes");
 
 dotenv.config();
