@@ -47,14 +47,11 @@ exports.getOneComment= async (req,res)=>{
     exports.createComment = async (req, res)=>{
       try{
       const comment = new Comment({
-    //    author: User.firstName,
+      //  author: req.body.User,
        content:  req.body.content,
        date: Date.now()
        
       })
-      // comment.save().then(()=> {
-      //   console.log(comment)
-      // })
     const newComment=await comment.save()
     console.log(newComment)
     res.status(201).json(newComment)

@@ -5,6 +5,10 @@ const VolunteerController= require('../controllers/VolunteerController')
 
 //getting one
 router.get('/:id', VolunteerController.getOneVolunteer);
+
+// getting all
+router.get('/',VolunteerController.allVolunteers);
+
 //updating one 
 router.patch('/:id', VolunteerController.updateVolunteer);
 
@@ -12,8 +16,7 @@ router.patch('/:id', VolunteerController.updateVolunteer);
 router.post ('/', VolunteerController.createVolunteer);
 
 // sort by category
-router.get ('/costam/{category}',VolunteerController.filterByCategory);
-
+router.get ('/category/:categoryId',VolunteerController.filterByCategory)
 //getting comments to particular one
 router.get ('/:id/comments');
 

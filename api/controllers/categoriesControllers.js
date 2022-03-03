@@ -19,14 +19,8 @@ exports.getOneCategory= async (req,res)=>{
 
 //GET all categories
 exports.allCategories = async (req, res, next) => {
-    const results = {
-      allCategories: await Category.count(),
-    };
     results.results = await Category.find(req.query || req.params);
     res.send({
-      request: {
-        type: 'GET',
-      },
       Category: results,
     });
   };
@@ -36,11 +30,11 @@ exports.allCategories = async (req, res, next) => {
   exports.createCategory = async (req, res)=>{
     try{
     const category = new Category({
-     categories:  req.body.categories,
+     name:  req.body.name,
+     color: req.body.color,
+     icon: req.body.icon
     })
-    // category.save().then(()=> {
-    //   console.log(category)
-    // })
+
   const newCategory=await category.save()
   console.log(newCategory)
   res.status(201).json(newCategory)
@@ -48,3 +42,6 @@ exports.allCategories = async (req, res, next) => {
     res.status(400).json({message:err.message})
   }
   }
+
+
+  

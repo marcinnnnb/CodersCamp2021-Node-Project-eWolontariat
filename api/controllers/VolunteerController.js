@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Volunteer = require('../Models/VolunteerForm')
+const Volunteer = require('../Models/VolunteerModel')
 
 
 // Get one volunteer
@@ -17,6 +17,13 @@ exports.getOneVolunteer= async (req,res)=>{
   res.send(volunteerById)
 }
 
+//GET all volunteers
+exports.allVolunteers = async (req, res, next) => {
+  results = await Volunteer.find(req.query || req.params);
+  res.send({
+    Volunteer: results,
+  });
+};
 
   //PUT volunteer -> patch (tylko do tych danych co się zmieniły)
   exports.updateVolunteer = async (req, res) => {
@@ -49,12 +56,10 @@ exports.getOneVolunteer= async (req,res)=>{
   exports.createVolunteer = async (req, res)=>{
     try{
     const volunteer = new Volunteer({
+     user:req.body.user,
      categories:  req.body.categories,
      description: req.body.description
     })
-    // volunteer.save().then(()=> {
-    //   console.log(volunteer)
-    // })
   const newVolunteer=await volunteer.save()
   console.log(newVolunteer)
   res.status(201).json(newVolunteer)
@@ -68,11 +73,11 @@ exports.getOneVolunteer= async (req,res)=>{
   exports.filterByCategory= async (req,res)=> {
     let filterVolunteer
   try {
-    // filterVolunteer= await Volunteer.find({Category})
-    filterVolunteer= db.volunteers.find({categories})
+    filterVolunteer= await Volunteer.find({categories: req.params.categoryId})
+    
     if(filterVolunteer === null){
-      // return res.status(404).json({message:'Nie ma wolontariuszy w tej kategorii'})
-      return res.send(volunteer)
+      return res.status(404).json({message:'Nie ma wolontariuszy w tej kategorii'})
+      
     }
   } catch(err){
     return res.status(500).json({message:err.message})
@@ -80,6 +85,7 @@ exports.getOneVolunteer= async (req,res)=>{
   res.filterVolunteer=filterVolunteer
   res.send(filterVolunteer)
 }
+
 
   //Get comments from volunteer
 

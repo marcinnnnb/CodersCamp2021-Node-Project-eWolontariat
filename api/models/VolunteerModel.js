@@ -20,14 +20,14 @@ const volunteerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment"
     }],
-    // events: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Events"
-    // }],
-    // picture: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Picture"
-    // }],
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Events"
+    }],
+    picture: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Picture"
+    }],
     
 })
 
