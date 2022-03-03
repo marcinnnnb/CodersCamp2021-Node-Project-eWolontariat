@@ -3,11 +3,10 @@ const express = require('express');
 const app = express();
 const eventRouter = require("./api/routes/eventRoutes");
 const categoryRouter = require("./api/routes/categoryRoutes");
-const Event = require("./api/models/eventModel");
+const pictureRouter = require("./api/routes/pictureRoutes");
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require("body-parser");
-const EventController = require('./api/controllers/eventController');
 
 dotenv.config();
 
@@ -25,6 +24,8 @@ app.use(bodyParser.json());
 
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
+app.use('/picture', pictureRouter);
 
 module.exports = app;
+
 
