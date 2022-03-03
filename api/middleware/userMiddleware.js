@@ -6,7 +6,7 @@ exports.loggedUser = function (req, res, next) {
     const token = req.header('auth-token');
     console.log(token)
 
-    if (!token) return res.status(401).send('Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.');
+    if (!token) return res.status(401).send({message:'Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.'});
 
     try {
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -19,7 +19,7 @@ exports.loggedUser = function (req, res, next) {
         req.user = verified;
         next();
     }
-    catch (err) {
-        res.status(400).send('Nieprawidłowy token.')
+    catch (error) {
+        res.status(400).send({message:error.message})
     }
 }
