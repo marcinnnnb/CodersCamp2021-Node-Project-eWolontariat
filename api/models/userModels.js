@@ -22,7 +22,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         min:4,
         max:20,
+
         unique: true,
+
         match:[(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{4,20}$/)]
     },
     email: {
@@ -35,11 +37,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         min:8
+
     },
     picture: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Picture"
     }],
+
 })
 
 module.exports = mongoose.model('User', userSchema)
