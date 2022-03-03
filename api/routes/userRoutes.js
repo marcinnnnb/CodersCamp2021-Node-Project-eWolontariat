@@ -4,7 +4,7 @@ const auth = require('../middleware/userMiddlewares')
 
 router.get('/:id', userController.getUser)
 router.post('/register', userController.registration)
-router.post('/login',auth.loggedUser, userController.logging)
+router.post('/login', userController.logging)
 router.patch('/:id',auth.loggedUser, userController.updatedUser);
  
 

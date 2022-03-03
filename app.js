@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require("body-parser");
 const EventController = require('./api/controllers/eventController');
+const userRouter = require("./api/routes/userRoutes");
 
 dotenv.config();
 
@@ -23,8 +24,12 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
 
+
+
 module.exports = app;
+
 
