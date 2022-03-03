@@ -11,6 +11,9 @@ exports.registration = async (req,res) => {
  
      const emailExist = await User.findOne({email: req.body.email});
      if(emailExist) return res.status(400).send('Podany email już istnieje.')
+
+     const loginExist = await User.findOne({login: req.body.login});
+     if(loginExist) return res.status(400).send('Podany login już istnieje.')
  
      const salt = await bcrypt.genSalt(10);
      const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -48,7 +51,6 @@ exports.logging = async (req,res) => {
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
     res.header('auth-token', token).send('Jesteś zalogowany!')
-    console.log(token)
 
 }
 
@@ -71,8 +73,8 @@ exports.updatedUser = async (req, res) => {
     const {error} = updateValidation(req.body)
      if(error) return res.status(400).send(error.details[0].message);
 
-     const salt = await bcrypt.genSalt(10);
-     const hashedPassword = await bcrypt.hash(req.body.password, salt)
+     //const salt = await bcrypt.genSalt(10);
+     //const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
     try {
         const updatedUser = await User
@@ -83,7 +85,7 @@ exports.updatedUser = async (req, res) => {
              lastName : req.body.lastName,
              login: req.body.login,
              email: req.body.email,
-             password: hashedPassword
+             password: req.body.password
             },
             { new: true }
           )
