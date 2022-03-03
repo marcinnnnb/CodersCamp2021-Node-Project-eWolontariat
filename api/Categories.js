@@ -4,8 +4,7 @@ const { db } = require("./Models/categoriesModel");
 
 
 exports.dataCategories=(req,res,next)=>{
-    let initialstate=db.collection('categories').countDocuments({});
-    if (initialstate===0|| null) {
+     {
     db.collection('categories').insertMany(
     
     [{name:"Excel", color:"green", icon:"comp"},
