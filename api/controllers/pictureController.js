@@ -6,6 +6,8 @@ exports.getPictureById = async (req, res) => {
     req.picture = await Picture.findById(req.params.id); 
     let picture = req.picture;
     res.send(picture.img.data.toString('base64'));
+
+    
 };
 
 exports.loadPicture = async (req, res) => {
