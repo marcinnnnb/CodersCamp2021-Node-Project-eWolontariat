@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+
 exports.loggedUser = function (req, res, next) {
 
-    
     const token = req.header('auth-token');
     console.log(token)
 
@@ -23,3 +23,6 @@ exports.loggedUser = function (req, res, next) {
         res.status(400).send({message:error.message})
     }
 }
+
+
+
