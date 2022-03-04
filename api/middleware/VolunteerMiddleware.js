@@ -17,7 +17,6 @@ exports.Userdata= function (req,res,next) {
     catch (error) {
         res.status(400).send({message:error.message})
     }
-    // const userId=req.session.User._id
 },
 
 exports.loggedVolunteer= async function (req,res,next) {
@@ -27,18 +26,14 @@ exports.loggedVolunteer= async function (req,res,next) {
 
     if (!token) return res.status(401).send({message:'Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.'});
     try {
-        volunteer= await Volunteer.findById(req.params.id)
+        volunteer= await Volunteer.findById(req.params.id).populate('user');
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        console.log(verified._id)
-        const userId = new verified._id;
-        const volunteerId=volunteer.user;
-        // let volunteerId2= volunteerId.str
-        console.log(volunteerId)
+        const userId = verified._id;
+        const volunteerId=volunteer.user.id;
         if(userId !== volunteerId){return res.status(401).send('Odmowa dostępu. Bak możliwości zmiany danych dla tego użytkownika')}
         next();
     }
     catch (error) {
         res.status(400).send({message:error.message})
     }
-    // const userId=req.session.User._id
 }
