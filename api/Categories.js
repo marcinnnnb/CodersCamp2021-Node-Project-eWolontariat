@@ -1,8 +1,6 @@
 const { db } = require("./Models/categoriesModel");
 
 
-
-
 exports.dataCategories=(req,res,next)=>{
      {
     db.collection('categories').insertMany(
