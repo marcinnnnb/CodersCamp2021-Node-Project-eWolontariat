@@ -6,10 +6,10 @@ exports.getOneComment= async (req,res)=>{
     try {
       commentById= await Comment.findById(req.params.id)
       if(commentById == null){
-        return res.status(404).json({message:'Nie ma takiego komentarza'})
+        throw new Error ('Nie ma takiego komentarza')
       }
-    } catch(err){
-      return res.status(500).json({message:err.message})
+    } catch(error){
+      return res.status(500).json({message:error.message})
     }
     res.commentById=commentById
     res.send(commentById)
@@ -32,12 +32,12 @@ exports.getOneComment= async (req,res)=>{
         console.log(updatedComment)
   
       if (!updatedComment) {
-        return res.status(400).send(' Nie ma takiego komentarza')
+      throw new Error (' Nie ma takiego komentarza')
       }
       res.status(200).json({ data: updatedComment })
-    } catch (e) {
+    } catch (error) {
       console.error(e)
-      res.status(400).send('Error')
+      res.status(400).send({message:error.message})
     }
   };
   
@@ -55,8 +55,8 @@ exports.getOneComment= async (req,res)=>{
     const newComment=await comment.save()
     console.log(newComment)
     res.status(201).json(newComment)
-    } catch(err) {
-      res.status(400).json({message:err.message})
+    } catch(error) {
+      res.status(400).json({message:error.message})
     }
     }
 
@@ -69,14 +69,13 @@ exports.getOneComment= async (req,res)=>{
               {_id: req.params.id}
             )
             .exec()
-            console.log(deletedComment)
       
           if (!deletedComment) {
-            return res.status(400).send(' Nie ma takiego komentarza')
+            throw new Error (' Nie ma takiego komentarza')
           }
           res.status(200).json({ data: deletedComment })
-        } catch (e) {
-          console.error(e)
-          res.status(400).send('Error')
+        } catch (error) {
+          console.error(error)
+          res.status(400).send({message:error.message})
         }
       };

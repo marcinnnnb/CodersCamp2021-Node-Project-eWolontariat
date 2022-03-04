@@ -8,10 +8,10 @@ exports.getOneCategory= async (req,res)=>{
   try {
     categoryById= await Category.findById(req.params.id)
     if(categoryById == null){
-      return res.status(404).json({message:'Nie ma takiej kategorii'})
+      throw new Error ('Nie ma takiej kategorii')
     }
-  } catch(err){
-    return res.status(500).json({message:err.message})
+  } catch(error){
+    return res.status(500).json({message:error.message})
   }
   res.categoryById=categoryById
   res.send(categoryById)
@@ -38,8 +38,8 @@ exports.allCategories = async (req, res, next) => {
   const newCategory=await category.save()
   console.log(newCategory)
   res.status(201).json(newCategory)
-  } catch(err) {
-    res.status(400).json({message:err.message})
+  } catch(error) {
+    res.status(400).json({message:error.message})
   }
   }
 

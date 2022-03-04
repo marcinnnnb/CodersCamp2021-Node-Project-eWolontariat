@@ -5,12 +5,10 @@ const Volunteer  = require('../Models/VolunteerModel');
 
 exports.Userdata= function (req,res,next) {
     const token = req.header('auth-token');
-    console.log(token)
 
-    if (!token) return res.status(401).send({message:'Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.'});
+    if (!token) throw new Error ('Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.');
     try {
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        console.log(verified)
         req.user = verified;
         next();
     }
@@ -22,7 +20,6 @@ exports.Userdata= function (req,res,next) {
 exports.loggedVolunteer= async function (req,res,next) {
     const token = req.header('auth-token');
     let volunteer
-    console.log(token)
 
     if (!token) throw new Error ('Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.');
     try {
