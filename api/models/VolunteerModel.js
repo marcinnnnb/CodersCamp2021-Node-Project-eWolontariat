@@ -4,9 +4,9 @@ const volunteerSchema = new mongoose.Schema({
     VolId: mongoose.Schema.Types.ObjectId,
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        require: true
-    }, //name, login itd from user?
+        ref:"User",
+        // require: true
+    }, 
     categories: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
