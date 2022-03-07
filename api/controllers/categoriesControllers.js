@@ -19,10 +19,10 @@ exports.getOneCategory= async (req,res)=>{
 
 //GET all categories
 exports.allCategories = async (req, res, next) => {
-    results.results = await Category.find(req.query || req.params);
-    res.send({
-      Category: results,
-    });
+   const results = await Category.find();
+    res.send(
+      results,
+    );
   };
 
   // POST category

@@ -8,7 +8,7 @@ const url= require('url');
 exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
   try {
-    volunteerById= await Volunteer.findById(req.params.id).catch(error => {
+    volunteerById= await Volunteer.findById(req.params.id).populate('categories').catch(error => {
       console.log(error);
       res.status(404)
       throw new Error('Nie ma takiego wolontariusza');
@@ -30,25 +30,24 @@ exports.allVolunteers = async (req, res, next) => {
   let volunteers;
    
   try{    
-    volunteers = await Volunteer.find().exec().catch(error => {
-      console.log(error);
-      res.status(404)
-      throw new Error('Brak wolontariuszy');
-    });
 
-  if(queryObject.categories) {
-    volunteers= await Volunteer.find({categories:queryObject.categories}).exec().catch(error => {
-      console.log(error);
-      res.status(404)
-      throw new Error('Nie ma takiej kategorii');
-    });
-  
-     }
-  if(!volunteers.length){
-    res.status(404)
-    throw new Error ('Nie ma wolontariuszy w tej kategorii');
-  }
-  res.send(volunteers);
+  if(!queryObject.categories) {
+    volunteers= await Volunteer.find().populate('categories').exec();
+  } else {
+    volunteers = await Volunteer.find().populate({
+      path: 'categories',
+      match: {
+        type: queryObject.categories
+      }
+    }).exec();  
+
+    volunteers = volunteers.filter(function(volunteer) {
+      if(Array.isArray(volunteer.categories)) {
+        return volunteer.categories.length > 0;
+      } 
+    })
+  }  
+  return res.send(volunteers);
   }catch(error){
     return res.json({message:error.message})
   }
