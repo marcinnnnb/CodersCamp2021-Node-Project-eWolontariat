@@ -31,12 +31,11 @@ mongoose
   });
 
 
-// app.use(dataCategories);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.use('/Volunteer', VolunteerRoutes);
+app.use('/volunteer', VolunteerRoutes);
 app.use('/Comment', CommentRoutes);
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
