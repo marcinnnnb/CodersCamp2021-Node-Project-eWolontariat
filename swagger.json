@@ -33,7 +33,6 @@
             "User"
           ],
           "summary": "Create new user in system",
-          "description": "Create new user in system",
           "parameters": [
             {
               "name": "user",
@@ -49,7 +48,7 @@
           ],
           "responses": {
             "200": {
-              "description": "New user is created",
+              "description": "New user was created",
               "schema": {
                 "$ref": "#/definitions/user"
               }
@@ -63,7 +62,6 @@
             "User"
           ],
           "summary": "Login user in system",
-          "description": "Login user in system",
           "parameters": [
             {
               "name": "user",
@@ -79,9 +77,9 @@
           ],
           "responses": {
             "200": {
-              "description": "Login!",
+              "description": "User was logged!",
               "schema": {
-                "$ref": "#/definitions/login"
+                "$ref": "#/definitions/user"
               }
             }
           }
@@ -93,8 +91,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID of user that we want to find",
-            "type": "integer"
+            "description": "ID of user",
+            "type": "string"
           }
         ],
         "patch": {
@@ -126,19 +124,9 @@
           "tags": [
             "User"
           ],
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "User with values of properties",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
-            }
-          ],
           "responses": {
             "200": {
-              "description": "A single user",
+              "description": "Get single user",
               "schema": {
                 "$ref": "#/definitions/user"
               }
