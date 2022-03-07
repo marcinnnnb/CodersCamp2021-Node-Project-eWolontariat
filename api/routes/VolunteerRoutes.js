@@ -16,9 +16,6 @@ router.patch('/:id', auth.loggedVolunteer, VolunteerController.updateVolunteer);
 //creating 
 router.post ('/', auth.Userdata, VolunteerController.createVolunteer);
 
-// sort by category
-router.get ('/category/:categoryId',VolunteerController.filterByCategory)
-
 //getting comments to particular one
 router.get ('/:id/comments',VolunteerController.getVolunteerComments);
 

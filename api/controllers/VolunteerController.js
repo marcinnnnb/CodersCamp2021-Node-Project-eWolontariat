@@ -1,32 +1,60 @@
 const mongoose = require('mongoose');
 const Volunteer = require('../Models/VolunteerModel');
+const url= require('url');
+
 
 
 // Get one volunteer
 exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
   try {
-    volunteerById= await Volunteer.findById(req.params.id)
+    volunteerById= await Volunteer.findById(req.params.id).catch(error => {
+      console.log(error);
+      res.status(404)
+      throw new Error('Nie ma takiego wolontariusza');
+    })
     if(volunteerById == null){
+      res.status(404)
        throw new Error('Nie ma takiego wolontariusza')
     }
   } catch(error){
-    return res.status(500).json({message:error.message})
+    return res.json({message:error.message})
   }
-  res.volunteerById=volunteerById
-  res.send(volunteerById)
-  
+  return res.send(volunteerById)
 }
 
-//GET all volunteers
+//GET all volunteers or sort by category
 exports.allVolunteers = async (req, res, next) => {
-  results = await Volunteer.find(req.query || req.params);
-  res.send({
-    Volunteer: results,
-  });
+  
+  const queryObject= url.parse(req.url,true).query;
+  let volunteers;
+   
+  try{    
+    volunteers = await Volunteer.find().exec().catch(error => {
+      console.log(error);
+      res.status(404)
+      throw new Error('Brak wolontariuszy');
+    });
+
+  if(queryObject.categories) {
+    volunteers= await Volunteer.find({categories:queryObject.categories}).exec().catch(error => {
+      console.log(error);
+      res.status(404)
+      throw new Error('Nie ma takiej kategorii');
+    });
+  
+     }
+  if(!volunteers.length){
+    res.status(404)
+    throw new Error ('Nie ma wolontariuszy w tej kategorii');
+  }
+  res.send(volunteers);
+  }catch(error){
+    return res.json({message:error.message})
+  }
 };
 
-  //PUT volunteer -> patch (tylko do tych danych co się zmieniły)
+  //PATCH volunteer -> 
   exports.updateVolunteer = async (req, res) => {
     
   try {
@@ -39,16 +67,22 @@ exports.allVolunteers = async (req, res, next) => {
         },
         { new: true }
       )
-      .exec()
+      .exec().catch(error => {
+        console.log(error);
+        res.status(404)
+        throw new Error('Nie ma takiego wolontariusza');
+      })
 
     if (!updatedVolunteer) {
+      res.status(404)
       throw new Error (' Nie ma takiego wolontariusza')
     }
     res.status(200).json({ data: updatedVolunteer })
   } catch (error) {
-    console.error(e)
-    res.status(400).send({message:error.message})
+    console.error(error)
+    res.send({message:error.message})
   }
+
 };
 
 
@@ -69,37 +103,21 @@ exports.allVolunteers = async (req, res, next) => {
   }
   }
 
-  //Sort by category
-
-  exports.filterByCategory= async (req,res)=> {
-    let filterVolunteer
-  try {
-    filterVolunteer= await Volunteer.find({categories: req.params.categoryId})
-    
-    if(filterVolunteer === null){
-      throw new Error ('Nie ma wolontariuszy w tej kategorii')
-      
-    }
-  } catch(error){
-    return res.status(500).json({message:error.message})
-  }
-  res.filterVolunteer=filterVolunteer
-  res.send(filterVolunteer)
-}
-
-
   //Get comments from volunteer
   
   exports.getVolunteerComments = async (req, res) => {
     req.volunteer = await Volunteer.findById(req.params.id);
     let volunteer = req.volunteer;
     res.send(volunteer.comments);
+
   };
-  //get Volunteers from volunteer. 
+
+  //get events from volunteer. 
   
   exports.getVolunteerEvents = async (req, res) => {
     let volunteersEvents;
     volunteersEvents = await Volunteer.findById(req.params.id);
     res.send(volunteersEvents.events);
+ 
   };
 
