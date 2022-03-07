@@ -1,4 +1,5 @@
 const Comment = require('../Models/commentsModel')
+const Event = require("../models/eventModel")
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
@@ -49,12 +50,29 @@ exports.getOneComment= async (req,res)=>{
       const comment = new Comment({
        author: req.user,
        content:  req.body.content,
-       date: Date.now()
+       date: Date.now(),
+       event: req.body.event
        
       })
-    const newComment=await comment.save()
-    console.log(newComment)
-    res.status(201).json(newComment)
+
+    Comment.create(comment, (err, item) => {
+      if (err) {
+              res.status(400).json({
+                error: error
+              });
+      }
+      else {
+           Event.findOneAndUpdate(
+            { _id: req.body.event }, 
+            { $push: { comments: item } });
+         
+          item.save();
+          res.status(201).json({
+              message: 'Comment saved successfully!'
+            });
+      }
+  })
+    
     } catch(error) {
       res.status(400).json({message:error.message})
     }

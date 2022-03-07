@@ -48,7 +48,7 @@ const eventSchema = new mongoose.Schema({
     }],
     volunteersNeeded: {
         type: Number,
-        //required: true
+        required: true
     },
     isFinished: {
         type: Boolean,

@@ -36,16 +36,13 @@ exports.updateEvent = async (req, res) => {
         });
       }
      );
+     if(req.user._id!==event.owner.id) throw new Error("You can`t edit this event. You are not the author.");
      res.status(201).json({
       message: `Event id: ${event.id} updated successfully!`
     });
-    } catch {
-    (error) => {
-      res.status(400).json({
-        error: error.message
-      });
+    } catch (error) {
+      res.status(400).send({message:error.message});
     }
-  }
 };
 
 exports.getAssignedVolunteers = async (req, res) => {
@@ -70,14 +67,14 @@ exports.getAssignedVolunteers = async (req, res) => {
 
 exports.getEventComments = async (req, res) => {
   try{
-    req.event = await Event.findById(req.params.id).populate("comments").catch(
+    const event = await Event.findById(req.params.id).populate("comments").catch(
       (error) => {  
         res.status(400).json({
           error: 'There is no event with this ID'
         });
       }
     );
-    res.send(req.event.comments);
+    res.send(event.comments);
   } catch {
     (error) => {
       res.status(400).json({
@@ -94,6 +91,7 @@ exports.howManyEventsSucceeded =  async (req, res) => {
 
 function saveEvent() {
   return async (req, res, next) => {
+   
       let event = new Event({
         title: req.body.title,
         description: req.body.description,
@@ -101,7 +99,6 @@ function saveEvent() {
         organization: req.body.organization,
         shortDescription: req.body.shortDescription,
         dateStarted: req.body.dateStarted,
-        comments: req.body.comments,
         dateExpired: req.body.dateExpired,
         volunteersNeeded: req.body.volunteersNeeded,
         categories: req.body.categories,
@@ -121,4 +118,5 @@ function saveEvent() {
             });
           }
         );
-  }};
+    } 
+  };
