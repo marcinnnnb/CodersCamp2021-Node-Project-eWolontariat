@@ -56,7 +56,7 @@ exports.loggedVolunteer= async function (req,res,next) {
 
         const userId = verified._id;
 
-        const volunteerId=volunteer.user.id;
+        // const volunteerId=volunteer.user.id;
 
         if(userId !== volunteerId) {
             res.status(403)

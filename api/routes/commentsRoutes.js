@@ -5,15 +5,15 @@ const auth= require('../middleware/VolunteerMiddleware')
 
 
 //getting one
-router.get('/:id', commentsController.getOneComment);
+router.get('/comment/:id', commentsController.getOneComment);
 //updating one 
-router.put('/:id', commentsController.updateComment);
+router.put('/comment/:id', auth.Userdata, commentsController.updateComment);
 
 //creating 
-router.post ('/', auth.Userdata , commentsController.createComment);
+router.post ('/volunteer/:id/comment', auth.Userdata , commentsController.createComment);
 
 //delete comment
-router.delete('/:id',commentsController.deleteComment)
+router.delete('/comment/:id',auth.Userdata, commentsController.deleteComment)
 
 
 module.exports=router

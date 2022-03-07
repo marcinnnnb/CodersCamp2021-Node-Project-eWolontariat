@@ -1,4 +1,6 @@
-const Comment = require('../Models/commentsModel')
+const Comment = require('../Models/commentsModel');
+const Volunteer = require('../Models/VolunteerModel');
+
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
@@ -46,14 +48,16 @@ exports.getOneComment= async (req,res)=>{
   
     exports.createComment = async (req, res)=>{
       try{
-      const comment = new Comment({
+      const volunteer= await Volunteer.findById(req.params.id)
+           const comment = new Comment({
        author: req.user,
        content:  req.body.content,
-       date: Date.now()
-       
-      })
+       date: Date.now(),
+          })
     const newComment=await comment.save()
-    console.log(newComment)
+    console.log(volunteer.comments)
+    volunteer.comments=volunteer.comments.push(newComment);
+    console.log(volunteer.comments)
     res.status(201).json(newComment)
     } catch(error) {
       res.status(400).json({message:error.message})
