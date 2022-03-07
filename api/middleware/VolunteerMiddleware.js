@@ -26,39 +26,32 @@ exports.Userdata= function (req,res,next) {
 exports.loggedVolunteer= async function (req,res,next) {
     const token = req.header('auth-token');
     let volunteer
-    let verified;
+    let verifiedUserId;
     try {
         if (!token) {
             res.status(401)
             throw new Error ('Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.');
         }
-
-        volunteer = await Volunteer.findById(req.params.id).populate('user').catch((err)=> {
-            res.status(404)
-            throw new Error("Podany wolontariusz nie istnieje");
-        });;
-
-        if(volunteer) {
-            volunteerId = volunteer.user.id;
-        } else {
-            res.status(404)
-            throw new Error("Podany wolontariusz nie istnieje");
-        }
-
         jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
             if(err) {
                 console.log(err);
                 throw new Error ('Odmowa dostępu. Nieprawidłowy token');
             } else {
-                verified = decoded
+                verifiedUserId = decoded._id
             }
         });
 
-        const userId = verified._id;
+        volunteer = await Volunteer.findById(req.params.id).populate('user').catch((err)=> {
+            res.status(404)
+            throw new Error("Podany wolontariusz nie istnieje");
+        });
 
-        // const volunteerId=volunteer.user.id;
+        if(!volunteer) {
+            res.status(404)
+            throw new Error("Podany wolontariusz nie istnieje");
+        }
 
-        if(userId !== volunteerId) {
+        if(verifiedUserId !== volunteer.user.id) {
             res.status(403)
             throw new Error('Odmowa dostępu. Bak możliwości zmiany danych dla tego użytkownika')
         } 

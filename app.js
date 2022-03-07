@@ -10,7 +10,7 @@ const pictureRouter = require("./api/routes/pictureRoutes");
 const userRouter = require("./api/routes/userRoutes");
 const VolunteerRoutes= require('./api/routes/VolunteerRoutes')
 const CommentRoutes= require('./api/routes/commentsRoutes')
-const {dataCategories}  = require('./api/Categories');
+
 
 app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
@@ -30,7 +30,6 @@ mongoose
   });
 
 
-// app.use(dataCategories);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
