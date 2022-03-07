@@ -120,4 +120,3 @@ exports.allVolunteers = async (req, res, next) => {
     res.send(volunteersEvents.events);
  
   };
-

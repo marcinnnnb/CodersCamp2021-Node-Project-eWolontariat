@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'User',
         require: true
-    }, //name, login itd from user?
+    }, 
     content: {
         type: String,
         require: true
@@ -15,6 +15,10 @@ const commentSchema = new mongoose.Schema({
     date:{
         type: Date, 
         default: Date.now
+    },
+    volunteer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Volunteer'
     }
     
 })

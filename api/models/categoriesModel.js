@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 
 const categoriesSchema = new mongoose.Schema({
-    id: mongoose.Schema.Types.ObjectId,
     name:{
         type:String,
     unique:true},
