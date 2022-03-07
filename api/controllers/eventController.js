@@ -16,26 +16,75 @@ exports.saveNewEvent = (async (req, res, next) => {
 }, saveEvent());
 
 exports.getOneEvent = async (req, res) => {
-  req.event = await Event.findById(req.params.id);
+  req.event = await Event.findById(req.params.id).populate("comments").populate("categories").catch(
+    (error) => {
+      res.status(400).json({
+        error: 'There is no event with this ID'
+      });
+    }
+  );
   let event = req.event;
   res.send(event);
 };
 
-exports.updateEvent = (async (req, res, next) => {
-  req.event = await Event.findById(req.params.id);
-  next();
-}, saveEvent());
+exports.updateEvent = async (req, res) => {
+  try {
+    let event = await Event.findByIdAndUpdate(req.params.id, req.body).catch(
+      (error) => {
+        res.status(400).json({
+          error: 'There is no event with this ID'
+        });
+      }
+     );
+     res.status(201).json({
+      message: `Event id: ${event.id} updated successfully!`
+    });
+    } catch {
+    (error) => {
+      res.status(400).json({
+        error: error.message
+      });
+    }
+  }
+};
 
 exports.getAssignedVolunteers = async (req, res) => {
-  req.event = await Event.findById(req.params.id);
-  let event = req.event;
-  res.send(event.volunteers);
+  try {
+    req.event = await Event.findById(req.params.id).populate("volunteers").catch(
+      (error) => {
+        res.status(400).json({
+          error: 'There is no event with this ID'
+        });
+      }
+    );
+    let event = req.event;
+    res.send(event.volunteers);
+  } catch {
+    (error) => {
+      res.status(400).json({
+        error: error.message
+      });
+    }
+  } 
 };
 
 exports.getEventComments = async (req, res) => {
-  req.event = await Event.findById(req.params.id);
-  let event = req.event;
-  res.send(event.comments);
+  try{
+    req.event = await Event.findById(req.params.id).populate("comments").catch(
+      (error) => {  
+        res.status(400).json({
+          error: 'There is no event with this ID'
+        });
+      }
+    );
+    res.send(req.event.comments);
+  } catch {
+    (error) => {
+      res.status(400).json({
+        error: error.message
+      });
+    }
+  };
 };
 
 exports.howManyEventsSucceeded =  async (req, res) => {
@@ -45,34 +94,31 @@ exports.howManyEventsSucceeded =  async (req, res) => {
 
 function saveEvent() {
   return async (req, res, next) => {
-    let event = new Event({
+      let event = new Event({
         title: req.body.title,
         description: req.body.description,
-        owner: req.body.owner,
+        owner: req.user,
         organization: req.body.organization,
         shortDescription: req.body.shortDescription,
         dateStarted: req.body.dateStarted,
+        comments: req.body.comments,
         dateExpired: req.body.dateExpired,
         volunteersNeeded: req.body.volunteersNeeded,
-        isSucceeded: req.body.isSucceeded,
         categories: req.body.categories,
         picture: req.body.picture
-        }) ;
-      
-      req.event = event;
-  
-      event = await event.save().then(
+        });
+
+        event = await event.save().then(
           () => {
             res.status(201).json({
-              message: 'Event saved successfully!'
+              message: `Event id: ${event.id} saved successfully!`
             });
-          }
+          },
         ).catch(
           (error) => {
             res.status(400).json({
-              error: error
+              error: error.message
             });
           }
         );
-  }
-}
+  }};
