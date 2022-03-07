@@ -8,7 +8,8 @@ const url= require('url');
 exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
   try {
-    volunteerById= await Volunteer.findById(req.params.id).populate('categories').catch(error => {
+    volunteerById= await Volunteer.findById(req.params.id)
+    .catch(error => {
       console.log(error);
       res.status(404)
       throw new Error('Nie ma takiego wolontariusza');
@@ -32,7 +33,7 @@ exports.allVolunteers = async (req, res, next) => {
   try{    
 
   if(!queryObject.categories) {
-    volunteers= await Volunteer.find().populate('categories').exec();
+    volunteers= await Volunteer.aggregate().populate('categories').exec();
   } else {
     volunteers = await Volunteer.find().populate({
       path: 'categories',
