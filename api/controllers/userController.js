@@ -56,7 +56,7 @@ exports.logging = async (req,res) => {
     res.header('auth-token', token).send('Jesteś zalogowany!')
 
     console.log(token)
-    res.send(token)
+    //res.send(token)
 
 
 }

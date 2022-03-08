@@ -1,5 +1,5 @@
 const jwt=require('jsonwebtoken');
-const Volunteer  = require('../Models/VolunteerModel');
+const VolunteerModel = require('../models/VolunteerModel');
 
 
 exports.Userdata= function (req,res,next) {
@@ -41,7 +41,7 @@ exports.loggedVolunteer= async function (req,res,next) {
             }
         });
 
-        volunteer = await Volunteer.findById(req.params.id).populate('user').catch((err)=> {
+        volunteer = await VolunteerModel.findById(req.params.id).populate('user').catch((err)=> {
             res.status(404)
             throw new Error("Podany wolontariusz nie istnieje");
         });

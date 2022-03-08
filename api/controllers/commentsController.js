@@ -1,6 +1,7 @@
-const Comment = require('../Models/commentsModel');
-const Volunteer = require('../Models/VolunteerModel');
-
+const Comment = require('../models/commentsModel')
+const Event = require("../models/eventModel")
+const VolunteerModel = require('../models/VolunteerModel')
+//const Volunteer = require("../models/VolunteerModel")
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
