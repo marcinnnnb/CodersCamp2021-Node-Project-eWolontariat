@@ -15,12 +15,7 @@ const commentSchema = new mongoose.Schema({
     date:{
         type: Date, 
         default: Date.now
-    },
-    volunteer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Volunteer'
     }
-    
 })
 
 module.exports = mongoose.model('Comment', commentSchema)

@@ -19,6 +19,12 @@ router.post ('/', auth.Userdata, VolunteerController.createVolunteer);
 //getting comments to particular one
 router.get ('/:id/comments',VolunteerController.getVolunteerComments);
 
+//add comments to particular one
+router.post ('/:id/comments',auth.Userdata,VolunteerController.addVolunteerComment);
+
+//delete comment frome particular one
+router.delete ('/:id/comments/:commentId',auth.Userdata,VolunteerController.deleteVolunteerComment);
+
 //getting events 
 router.get ('/:id/events',VolunteerController.getVolunteerEvents);
 

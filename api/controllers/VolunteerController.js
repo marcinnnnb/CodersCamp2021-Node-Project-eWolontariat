@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Volunteer = require('../Models/VolunteerModel');
+const User = require('../Models/userModel');
 const url= require('url');
+const {createComment,deleteComment}  = require('./commentsController');
 
 
 
@@ -9,6 +11,8 @@ exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
   try {
     volunteerById= await Volunteer.findById(req.params.id)
+    .populate('categories')
+    .populate('comments')
     .catch(error => {
       console.log(error);
       res.status(404)
@@ -28,14 +32,17 @@ exports.getOneVolunteer= async (req,res)=>{
 exports.allVolunteers = async (req, res, next) => {
   
   const queryObject= url.parse(req.url,true).query;
+  let firstName = queryObject.firstName || "";
+  let lastName = queryObject.lastName || "";
   let volunteers;
    
   try{    
 
   if(!queryObject.categories) {
-    volunteers= await Volunteer.find().populate('categories').exec();
+    volunteers= await Volunteer.find({  firstName : { $regex: '.*' + firstName   + '.*' }, lastName : { $regex: '.*' + lastName + '.*' }})
+      .populate('categories').populate('user', '-password').exec();
   } else {
-    volunteers = await Volunteer.find().populate({
+    volunteers = await Volunteer.find({ firstName : { $regex: '.*' + firstName   + '.*' }, lastName : { $regex: '.*' + lastName + '.*' }}).populate({
       path: 'categories',
       match: {
         name: queryObject.categories
@@ -90,8 +97,12 @@ exports.allVolunteers = async (req, res, next) => {
 
   exports.createVolunteer = async (req, res)=>{
     try{
+    const user = await User.findById(req.user);
+
     const volunteer = new Volunteer({
      user:req.user,
+     firstName: user.firstName,
+     lastName: user.lastName,
      categories:  req.body.categories,
      description: req.body.description
     })
@@ -111,6 +122,24 @@ exports.allVolunteers = async (req, res, next) => {
     res.send(volunteer.comments);
 
   };
+
+  exports.addVolunteerComment = async (req, res) => {
+     let comment = await createComment({author : req.user._id, content: req.body.content});
+     await Volunteer.findOneAndUpdate(
+        { _id: req.params.id}, 
+        { $push: { comments: comment } })
+    res.status(200).json(comment)
+  }
+
+  exports.deleteVolunteerComment = async (req, res) => {  
+    await Volunteer.findOneAndUpdate(
+        { _id: req.params.id}, 
+        { $pull: { comments:{_id: req.params.commentId } } })
+    await deleteComment({id : req.params.commentId}); 
+       
+    res.status(200).json()
+  }
+
 
   //get events from volunteer. 
   
