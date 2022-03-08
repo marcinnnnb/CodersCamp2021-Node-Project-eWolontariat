@@ -1,6 +1,7 @@
-const Comment = require('../Models/commentsModel');
-const Volunteer = require('../Models/VolunteerModel');
-
+const Comment = require('../models/commentsModel')
+const Event = require("../models/eventModel")
+const VolunteerModel = require('../models/VolunteerModel')
+//const Volunteer = require("../models/VolunteerModel")
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
@@ -53,12 +54,33 @@ exports.getOneComment= async (req,res)=>{
        author: req.user,
        content:  req.body.content,
        date: Date.now(),
-          })
-    const newComment=await comment.save()
-    console.log(volunteer.comments)
-    volunteer.comments=volunteer.comments.push(newComment);
-    console.log(volunteer.comments)
-    res.status(201).json(newComment)
+       event: req.body.event,
+       volunteer: req.body.volunteer
+       
+      })
+
+    Comment.create(comment, (err, item) => {
+      if (err) {
+              res.status(400).json({
+                error: error
+              });
+      }
+      else {
+           Event.findOneAndUpdate(
+            { _id: req.body.event }, 
+            { $push: { comments: item } });
+
+            VolunteerModel.findOneAndUpdate(
+              { _id: req.body.volunteer }, 
+              { $push: { comments: item } });
+         
+          item.save();
+          res.status(201).json({
+              message: 'Comment saved successfully!'
+            });
+      }
+  })
+    
     } catch(error) {
       res.status(400).json({message:error.message})
     }

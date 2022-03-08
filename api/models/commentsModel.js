@@ -16,8 +16,12 @@ const commentSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now
     },
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Event'
+    },
     volunteer:{
-        type:mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref:'Volunteer'
     }
     
