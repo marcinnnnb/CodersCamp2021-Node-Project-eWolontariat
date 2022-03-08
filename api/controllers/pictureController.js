@@ -73,6 +73,6 @@ exports.deletePicture = async (req, res) => {
         message: 'Picture deleted!'
       });
     } catch (error) {
-        res.status(400).send({message:error.message});
+        return res.status(400).send({message:error.message});
     }
 }

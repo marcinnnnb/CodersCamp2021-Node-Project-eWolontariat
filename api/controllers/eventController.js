@@ -17,72 +17,54 @@ exports.saveNewEvent = (async (req, res, next) => {
 }, saveEvent());
 
 exports.getOneEvent = async (req, res) => {
-  req.event = await Event.findById(req.params.id).populate("comments").populate("categories").catch(
-    (error) => {
-      res.status(400).json({
-        error: 'There is no event with this ID'
-      });
-    }
-  );
-  let event = req.event;
-  res.send(event);
+  let event;
+  try{
+    event = await Event.findById(req.params.id).populate("comments").populate("categories").catch(error=>{
+      throw new Error('There is no event with this ID');
+    });
+  } catch (error) {
+    return res.status(400).send({message:error.message});
+  };
+  return res.send(event);
 };
 
 exports.updateEvent = async (req, res) => {
+  let event;
   try {
-    let event = await Event.findByIdAndUpdate(req.params.id, req.body).catch(
-      (error) => {
-        res.status(400).json({
-          error: 'There is no event with this ID'
-        });
-      }
-     );
-     if(req.user._id!==event.owner.id) throw new Error("You can`t edit this event. You are not the author.");
-     res.status(201).json({
-      message: `Event id: ${event.id} updated successfully!`
+    event = await Event.findByIdAndUpdate(req.params.id, req.body).catch(error=>{
+      throw new Error('There is no event with this ID');
     });
     } catch (error) {
-      res.status(400).send({message:error.message});
-    }
+      return res.status(400).send({message:error.message});
+    };
+    return res.status(201).json({ message: `Event id: ${event.id} updated successfully!`});
 };
 
 exports.getAssignedVolunteers = async (req, res) => {
+  let event;
   try {
-    req.event = await Event.findById(req.params.id).populate("volunteers").catch(
-      (error) => {
-        res.status(400).json({
-          error: 'There is no event with this ID'
-        });
-      }
-    );
-    let event = req.event;
-    res.send(event.volunteers);
+    event = await Event.findById(req.params.id).populate("volunteers").catch(error=>{
+      throw new Error('There is no event with this ID');
+    });
   } catch {
     (error) => {
-      res.status(400).json({
-        error: error.message
-      });
+      return res.status(400).json({ error: error.message });
     }
-  } 
+  };
+  return res.send(event.volunteers);
 };
 
 exports.getEventComments = async (req, res) => {
+  let event;
   try{
-    const event = await Event.findById(req.params.id).populate("comments").catch(
-      (error) => {  
-        res.status(400).json({
-          error: 'There is no event with this ID'
-        });
-      }
-    );
-    res.send(event.comments);
+    event = await Event.findById(req.params.id).populate("comments").catch(error=>{
+      throw new Error('There is no event with this ID');
+    });
   } catch {
-    (error) => {
-      res.status(400).json({
-        error: error.message
-      });
+    return (error) => { res.status(400).json({ error: error.message });
     }
   };
+  res.send(event.comments);
 };
 
 exports.howManyEventsSucceeded =  async (req, res) => {
@@ -92,7 +74,6 @@ exports.howManyEventsSucceeded =  async (req, res) => {
 
 function saveEvent() {
   return async (req, res, next) => {
-   
     try {
       let event = new Event({
         title: req.body.title,
@@ -116,13 +97,9 @@ function saveEvent() {
           else {
                User.findOneAndUpdate(
                 { _id: req.user}, 
-                { $push: { events: item } }).catch(
-                  (error) => {  
-                    res.status(400).json({
-                      error: 'There is no user with this ID'
-                    });
-                  }
-                );
+                { $push: { events: item } }).catch(error=>{
+                  throw new Error('There is no event with this ID');
+                });
     
               item.save();
               res.status(201).json({
@@ -131,7 +108,7 @@ function saveEvent() {
           }
       })
     } catch(error) {
-      res.status(400).json({message: error.message})
+      return res.status(400).json({message: error.message})
     }
       
     } 

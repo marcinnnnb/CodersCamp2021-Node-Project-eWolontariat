@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const eventSchema = new mongoose.Schema({
     owner: { 
         type: Schema.Types.ObjectId, 
-        ref: 'User' 
+        ref: 'User',
+        required: true
     },
     organization: { 
         type: Schema.Types.ObjectId, 
