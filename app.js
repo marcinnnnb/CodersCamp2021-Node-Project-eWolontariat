@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use('/volunteer', VolunteerRoutes);
-app.use('/Comment', CommentRoutes);
+app.use('/comment', CommentRoutes);
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);

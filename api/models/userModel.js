@@ -43,7 +43,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Picture"
     }],
-
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event"
+    }]
 })
 
 module.exports = mongoose.model('User', userSchema)

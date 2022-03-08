@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Volunteer = require('../Models/VolunteerModel');
+const Volunteer = require('../models/VolunteerModel');
 const url= require('url');
 
 

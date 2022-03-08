@@ -1,6 +1,7 @@
 const Comment = require('../models/commentsModel')
 const Event = require("../models/eventModel")
-const Volunteer = require("../models/VolunteerModel")
+const VolunteerModel = require('../models/VolunteerModel')
+//const Volunteer = require("../models/VolunteerModel")
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
@@ -53,7 +54,8 @@ exports.getOneComment= async (req,res)=>{
        author: req.user,
        content:  req.body.content,
        date: Date.now(),
-       event: req.body.event
+       event: req.body.event,
+       volunteer: req.body.volunteer
        
       })
 
@@ -68,8 +70,8 @@ exports.getOneComment= async (req,res)=>{
             { _id: req.body.event }, 
             { $push: { comments: item } });
 
-            Volunteer.findOneAndUpdate(
-              { _id: req.body.event }, 
+            VolunteerModel.findOneAndUpdate(
+              { _id: req.body.volunteer }, 
               { $push: { comments: item } });
          
           item.save();

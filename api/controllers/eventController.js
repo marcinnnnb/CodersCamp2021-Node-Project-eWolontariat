@@ -1,4 +1,5 @@
 const Event = require("../models/eventModel");
+const User = require("../models/userModel");
 
 exports.getAllEvents = async (req, res) => {
   const events = await Event.find().sort({ dateStarted: 'desc' });
@@ -92,6 +93,7 @@ exports.howManyEventsSucceeded =  async (req, res) => {
 function saveEvent() {
   return async (req, res, next) => {
    
+    try {
       let event = new Event({
         title: req.body.title,
         description: req.body.description,
@@ -105,18 +107,32 @@ function saveEvent() {
         picture: req.body.picture
         });
 
-        event = await event.save().then(
-          () => {
-            res.status(201).json({
-              message: `Event id: ${event.id} saved successfully!`
-            });
-          },
-        ).catch(
-          (error) => {
-            res.status(400).json({
-              error: error.message
-            });
+        Event.create(event, (err, item) => {
+          if (err) {
+                  res.status(400).json({
+                    error: error
+                  });
           }
-        );
+          else {
+               User.findOneAndUpdate(
+                { _id: req.user}, 
+                { $push: { events: item } }).catch(
+                  (error) => {  
+                    res.status(400).json({
+                      error: 'There is no user with this ID'
+                    });
+                  }
+                );
+    
+              item.save();
+              res.status(201).json({
+                  message: `Event id: ${event.id} saved successfully!`
+                });
+          }
+      })
+    } catch(error) {
+      res.status(400).json({message: error.message})
+    }
+      
     } 
   };
