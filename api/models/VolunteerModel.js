@@ -9,8 +9,7 @@ const volunteerSchema = new mongoose.Schema({
     }, 
     categories: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "Category",
-        autopopulate: true
+        ref: "Category"
     },
     description: {
         type: String,
@@ -31,7 +30,7 @@ const volunteerSchema = new mongoose.Schema({
     }],
     
 })
-volunteerSchema.plugin(require('mongoose-autopopulate'));
+
 module.exports = mongoose.model('Volunteer', volunteerSchema)
 
 

@@ -33,12 +33,12 @@ exports.allVolunteers = async (req, res, next) => {
   try{    
 
   if(!queryObject.categories) {
-    volunteers= await Volunteer.aggregate().populate('categories').exec();
+    volunteers= await Volunteer.find().populate('categories').exec();
   } else {
     volunteers = await Volunteer.find().populate({
       path: 'categories',
       match: {
-        type: queryObject.categories
+        name: queryObject.categories
       }
     }).exec();  
 
@@ -120,3 +120,4 @@ exports.allVolunteers = async (req, res, next) => {
     res.send(volunteersEvents.events);
  
   };
+
