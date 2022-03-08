@@ -10,7 +10,6 @@ router.get('/:id', EventController.getOneEvent);
 router.put('/:id', auth.isLoggedUser, upload.single('image'), EventController.updateEvent);
 router.get('/:id/volunteers', EventController.getAssignedVolunteers);
 router.get('/:id/comments', EventController.getEventComments);
-router.get('/category/:categoryId', EventController.getEventsByCategory);
 router.get('/count/:isSucceeded',EventController.howManyEventsSucceeded);
 
 module.exports = router;

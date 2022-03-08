@@ -1,15 +1,14 @@
 const Event = require("../models/eventModel");
 const User = require("../models/userModel");
+const Organization = require("../models/eventModel");
+const url = require("url");
 
 exports.getAllEvents = async (req, res) => {
+ 
+
   const events = await Event.find().sort({ dateStarted: 'desc' });
   res.send({ events: events });
-}
-
-exports.getEventsByCategory =  async (req, res) => {
-  const events = await Event.find({categories: req.params.categoryId}).sort({ dateStarted: 'desc' });
-  res.send({ events: events });
-}
+};
 
 exports.saveNewEvent = (async (req, res, next) => {
   req.event = new Event();
@@ -89,24 +88,19 @@ function saveEvent() {
         });
 
         Event.create(event, (err, item) => {
-          if (err) {
-                  res.status(400).json({
-                    error: error
-                  });
-          }
-          else {
-               User.findOneAndUpdate(
-                { _id: req.user}, 
-                { $push: { events: item } }).catch(error=>{
-                  throw new Error('There is no event with this ID');
-                });
-    
-              item.save();
-              res.status(201).json({
-                  message: `Event id: ${event.id} saved successfully!`
-                });
-          }
-      })
+          User.findOneAndUpdate(
+            { _id: req.user}, 
+            { $push: { events: item } }).catch(error=>{
+              throw new Error('There is no event with this ID');
+            });
+
+            //dodać dla organizacji findOneAndUpdate
+
+            item.save();
+            res.status(201).json({
+              message: `Event id: ${event.id} saved successfully!`
+            });
+      });
     } catch(error) {
       return res.status(400).json({message: error.message})
     }

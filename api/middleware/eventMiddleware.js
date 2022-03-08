@@ -5,7 +5,10 @@ exports.isLoggedUser = async (req, res, next) => {
     const token = req.header('auth-token');
 
     try {
-       if (!token) throw new Error ('Access Denied. You have to log in!');
+       if (!token) {
+           res.status(401);
+           throw new Error ('Access Denied. You have to log in!');
+       } 
 
        jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
             if(err) {
@@ -19,17 +22,17 @@ exports.isLoggedUser = async (req, res, next) => {
         if (req.params.id && req.method === "PUT") {
             const event = await Event.findById(req.params.id).catch((err)=> 
             {
-                res.status(404)
+                res.status(404);
                 throw new Error('There is no event with this ID');
             });
 
             if(!event) {
-                res.status(404)
+                res.status(404);
                 throw new Error("No event found!");
             };
         
             if(req.user._id !== event.owner.toString()) {
-                res.status(403)
+                res.status(403);
                 throw new Error("You can`t edit this event. You are not the author.");
             };
         }
@@ -37,6 +40,6 @@ exports.isLoggedUser = async (req, res, next) => {
     }
     catch (error) {
        console.error(error);
-       return res.status(401).json({error: error.message});
+       return res.json({error: error.message});
     }    
 }

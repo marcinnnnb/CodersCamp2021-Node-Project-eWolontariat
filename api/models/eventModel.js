@@ -14,17 +14,21 @@ const eventSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxlength: 60
     },
     description: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxlength: 3000
     },
     shortDescription: {
         type: String,
         maxLength: 200,
-        //default: this.description.slice(0,100).concat("..."),
+        default: function() {
+            return (this.description.slice(0,100).concat("..."));
+        },
         trim: true
     },
     dateStarted: {
