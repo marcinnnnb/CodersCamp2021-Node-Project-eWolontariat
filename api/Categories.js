@@ -2,7 +2,7 @@ const { db } = require("./Models/categoriesModel");
 
 
 exports.dataCategories= function(){
-    try {
+
         db.collection('categories').insertMany(
     
             [{name:"Excel", color:"green", icon:"comp"},
@@ -12,9 +12,11 @@ exports.dataCategories= function(){
             {name:"Korepetycje", color:"green", icon:"paw"},
             {name:"Opieka nad dziećmi", color:"green", icon:"paw"},
             {name:"Fotografia", color:"green", icon:"paw"},    
-            ]);
-    } catch(err) {
-        console.log("Inicjacja Bazy danych - error")
-    }
+            ], (err) => {
+                if(err) {
+                    console.log("ERROR: Baza kategorii jest już zainicjalizowana")
+                }
+            });
+    
 
 }
