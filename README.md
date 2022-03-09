@@ -13,7 +13,7 @@
 ## Zespół projektowy
 
 Zespół pracował w ramach kursu [CodersCamp 2021](https://coderscamp.pl/).
-Aplikację została wykonana przez uczestników kursu pod okiem dwóch mentorów.
+Aplikacja została wykonana przez uczestników kursu pod okiem dwóch mentorów.
 
 **Mentorzy**: Dariusz Knysak, Paweł Michalak
 
@@ -40,7 +40,7 @@ Celem projektu było napisanie aplikacji wykorzystującej wiedzę nabytą w trze
 * Atlas MongoDB
 * Mongoose
 
-Zespół projektowy zdecydował się na aplikację własnego pomysłu i jest kontynuacją poprzedniego zadania projektowego w ramach programu. eWolontariat jest aplikacją umożliwiającą użytkownikowi zapisanie się do grona Wolontariuszy i aktywnie działanie wśród nich. Możliwe jest również stworzenie profilu organizacji, która poszukuje wolontariuszy i udostępnia aktualne zadania.
+Zespół projektowy zdecydował się na aplikację własnego pomysłu i jest kontynuacją poprzedniego zadania projektowego w ramach programu. 
 
 Aplikacja została wykonana wg wymagań dostarczonych przez organizatorów CodersCamp.
 Szablon projektu dostępny jest [TUTAJ](https://github.com/KrystianKjjk/CodersCamp2020.Project.FullStack-Node-React.OrganizationApp/blob/main/README.md).
