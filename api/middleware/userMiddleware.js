@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 exports.loggedUser = function (req, res, next) {
 
     const token = req.header('auth-token');
-    console.log(token)
 
     if (!token) return res.status(401).send({message:'Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika.'});
 

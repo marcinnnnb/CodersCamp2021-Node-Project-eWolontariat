@@ -73,18 +73,6 @@ exports.getUser = async (req, res) => {
 
 exports.updatedUser = async (req, res) => {
 
-  const isIdValid = mongoose.Types.ObjectId.isValid(req.params.id);
-    if (isIdValid) {
-      const user = await User.findById({_id:req.params.id}).select('-password');
-      if (!user)
-        return res
-          .status(404)
-          .send( 'Podany użytkownik nie istnieje.');
-      res.status(200).send(user);
-    } else {
-      res.status(400).send('Podano nieprawidłowy numer id');
-    }
-
     const {error} = updateValidation(req.body)
      if(error) return res.status(400).send(error.details[0].message);
 
@@ -97,9 +85,7 @@ exports.updatedUser = async (req, res) => {
              lastName : req.body.lastName,
              login: req.body.login,
              email: req.body.email,
-
              password: req.body.password
-
             },
             { new: true }
           )
