@@ -5,6 +5,6 @@ const port = process.env.PORT || 3000;
 
 
 app.listen(port, () => {
-//dataCategories();
+dataCategories();
 console.log(`Listening on port ${port}...`);
 })

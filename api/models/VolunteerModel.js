@@ -7,10 +7,19 @@ const volunteerSchema = new mongoose.Schema({
         ref:"User",
         // require: true
     }, 
+    firstName: {
+        type: String,
+        require: true,
+        min:10
+    },
+    lastName: {
+        type: String,
+        require: true,
+        min:10
+    },
     categories: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "Category",
-        autopopulate: true
+        ref: "Category"
     },
     description: {
         type: String,
@@ -31,8 +40,8 @@ const volunteerSchema = new mongoose.Schema({
     }],
     
 })
-volunteerSchema.plugin(require('mongoose-autopopulate'));
-module.exports = mongoose.model('Volunteer', volunteerSchema)
+
+module.exports = mongoose.models.Volunteer || mongoose.model('Volunteer', volunteerSchema)
 
 
 

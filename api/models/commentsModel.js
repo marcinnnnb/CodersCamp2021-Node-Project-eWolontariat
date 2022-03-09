@@ -15,16 +15,7 @@ const commentSchema = new mongoose.Schema({
     date:{
         type: Date, 
         default: Date.now
-    },
-    event: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Event'
-    },
-    volunteer:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Volunteer'
     }
-    
 })
 
 module.exports = mongoose.model('Comment', commentSchema)

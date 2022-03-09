@@ -20,7 +20,7 @@ exports.getOneComment= async (req,res)=>{
   
   
     //PUT comment -> patch (tylko do tych danych co się zmieniły)
-    exports.updateComment = async (req, res) => {
+   exports.updateComment = async (req, res) => {
     try {
       const updatedComment = await Comment
         .findOneAndUpdate(
@@ -47,61 +47,34 @@ exports.getOneComment= async (req,res)=>{
   
     // POST comment
   
-    exports.createComment = async (req, res)=>{
+    exports.createComment = async (body)=>{
       try{
-      const volunteer= await Volunteer.findById(req.params.id)
-           const comment = new Comment({
-       author: req.user,
-       content:  req.body.content,
+      const comment = new Comment({
+       author: body.author,
+       content: body.content,
        date: Date.now(),
-       event: req.body.event,
-       volunteer: req.body.volunteer
-       
-      })
-
-    Comment.create(comment, (err, item) => {
-      if (err) {
-              res.status(400).json({
-                error: error
-              });
-      }
-      else {
-           Event.findOneAndUpdate(
-            { _id: req.body.event }, 
-            { $push: { comments: item } });
-
-            VolunteerModel.findOneAndUpdate(
-              { _id: req.body.volunteer }, 
-              { $push: { comments: item } });
-         
-          item.save();
-          res.status(201).json({
-              message: 'Comment saved successfully!'
-            });
-      }
-  })
-    
+          })
+    const newComment=await comment.save()
+         return newComment;
     } catch(error) {
-      res.status(400).json({message:error.message})
+      throw new Error(error);
     }
     }
 
     //delete comment
 
-    exports.deleteComment = async (req, res) => {
+    exports.deleteComment = async (body) => {
         try {
           const deletedComment = await Comment
             .findByIdAndRemove(
-              {_id: req.params.id}
+              {_id: body.id}
             )
             .exec()
       
           if (!deletedComment) {
             throw new Error (' Nie ma takiego komentarza')
           }
-          res.status(200).json({ data: deletedComment })
         } catch (error) {
           console.error(error)
-          res.status(400).send({message:error.message})
         }
       };

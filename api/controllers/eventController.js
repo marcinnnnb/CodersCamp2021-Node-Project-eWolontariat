@@ -1,28 +1,31 @@
 const Event = require("../models/eventModel");
 const User = require("../models/userModel");
 const Organization = require("../models/eventModel");
+const {createComment,deleteComment}  = require('./commentsController');
 
 exports.getAllEvents = async (req, res) => {
   let events;
   try {
 
-  if (!req.query.category){
+  if (!req.query.category && !req.query.search){
     events = await Event.find().sort({ dateStarted: 'desc' });
     
   } else {
     events = [];
+    
     search = await Event.find({
-      $or: [
-        { 'title': { $regex: '.*' + req.query.search + '.*' } },
-        { 'description': { $regex: '.*' + req.query.search + '.*' } },
-        { 'shortDescription': { $regex: '.*' + req.query.search + '.*' } }
-      ]
-    }).populate({
-      path: 'categories',
-      match: {
-        name: req.query.category
-      }
-    }).exec();  
+        $or: [
+          { 'title': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } },
+          { 'description': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } },
+          { 'shortDescription': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } }
+        ]
+      }).populate({
+        path: 'categories',
+        match: {
+          name: req.query.category
+        }
+      }).sort({ dateStarted: 'desc' }).exec();  
+  
     events.push(search);
   };
 
@@ -31,31 +34,6 @@ exports.getAllEvents = async (req, res) => {
   }
   return res.send({ events: events });
 
-};
-
-exports.searchEventsBy =  async (req, res) => {
-  let events = [];
-  let search= "";
-  try {
-    
-      search = await Event.find({
-        $or: [
-          { 'title': { $regex: '.*' + req.query.search + '.*' } },
-          { 'description': { $regex: '.*' + req.query.search + '.*' } },
-          { 'shortDescription': { $regex: '.*' + req.query.search + '.*' } }
-        ]
-      }).populate('categories').sort({ dateStarted: 'desc' });
-
-      if(!req.query.search) {
-        events = [];
-        throw new Error("You have to write something...");
-      }
-      events.push(search);
-    
-  } catch (error) {
-      return res.status(400).json({ error: error.message });
-  }
-  return res.send({ events: events });
 };
 
 exports.saveNewEvent = (async (req, res, next) => {
@@ -108,13 +86,42 @@ exports.getEventComments = async (req, res) => {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   };
-  res.send(event.comments);
+  return res.send(event.comments);
 };
 
 exports.howManyEventsSucceeded =  async (req, res) => {
   const events = await Event.find({isSucceeded: req.params.isSucceeded}).count();
   return res.send({ events: events });
 };
+
+exports.addEventComment = async (req, res) => {
+  let comment;
+  try {
+    comment = await createComment({author : req.user.id, content: req.body.content});
+    await Event.findOneAndUpdate(
+      { _id: req.params.id}, 
+      { $push: { comments: comment } }
+      ).catch((error)=>{
+        throw new Error('There is no event with this ID');
+      });
+        
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    };
+  return res.status(201).json({ message: `Comment add successfully!`});
+};
+
+exports.deleteEventComment = async (req, res) => {  
+  try {
+    await Event.findOneAndUpdate(
+      { _id: req.params.id}, 
+      { $pull: { comments:{_id: req.params.commentId } } })
+    await deleteComment({id : req.params.commentId}); 
+   } catch (error) {
+    return res.status(200);
+  };
+  return res.status(201).json({ message: `Comment deleted!`});
+}
 
 function saveEvent() {
   return async (req, res, next) => {
