@@ -55,10 +55,6 @@ exports.logging = async (req,res) => {
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
     res.header('auth-token', token).send('Jesteś zalogowany!')
 
-    console.log(token)
-    //res.send(token)
-
-
 }
 
 exports.getUser = async (req, res) => {
@@ -77,13 +73,20 @@ exports.getUser = async (req, res) => {
 
 exports.updatedUser = async (req, res) => {
 
+  const isIdValid = mongoose.Types.ObjectId.isValid(req.params.id);
+    if (isIdValid) {
+      const user = await User.findById({_id:req.params.id}).select('-password');
+      if (!user)
+        return res
+          .status(404)
+          .send( 'Podany użytkownik nie istnieje.');
+      res.status(200).send(user);
+    } else {
+      res.status(400).send('Podano nieprawidłowy numer id');
+    }
+
     const {error} = updateValidation(req.body)
      if(error) return res.status(400).send(error.details[0].message);
-
-
-     //const salt = await bcrypt.genSalt(10);
-     //const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
 
     try {
         const updatedUser = await User
