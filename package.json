@@ -4,8 +4,8 @@
   "description": "Trzeci projekt tworzony podczas CodersCamp2021, wykorzystujacy Node.js",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "lint": "eslint --fix",
     "test": "mocha"
   },

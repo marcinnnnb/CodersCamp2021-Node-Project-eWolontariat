@@ -12,36 +12,7 @@ const bodyParser = require("body-parser");
 const EventController = require('./api/controllers/eventController');
 const UserController = require('./api/controllers/userControllers');
 const userRouter = require("./api/routes/userRoutes");
-
-const port = process.env.PORT || 3000;
-
-/*const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title:"e-Wolontariat API",
-      version: "1.0.0",
-      description: "Aplikacja pomagająca w znalezieniu wolontariuszy."
-    },
-    servers: [
-      {
-        url: "http://localhost:3000"
-      }
-    ],
-  },
-  apis:["./api/routes/*.js"]
-}
-
-//const specs = swaggerJsDoc(options)*/
-
 const app = express();
-
-app.use(
-  '/api-docs',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
-
 
 dotenv.config();
 
@@ -60,9 +31,11 @@ app.use(bodyParser.json());
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
+app.use(
+  '/',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
-app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-//module.exports = app;
-
-
+module.exports = app;
