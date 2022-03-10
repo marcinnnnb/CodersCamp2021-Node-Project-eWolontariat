@@ -1,22 +1,32 @@
 const helmet = require('helmet');
 const express = require('express');
-const swaggerUi = require('swagger-ui-express')
-swaggerDocument = require('./swagger.json')
-const eventRouter = require("./api/routes/eventRoutes");
-const categoryRouter = require("./api/routes/categoryRoutes");
-const Event = require("./api/models/eventModel");
+const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require("body-parser");
-const EventController = require('./api/controllers/eventController');
-const UserController = require('./api/controllers/userControllers');
+const eventRouter = require("./api/routes/eventRoutes");
+const categoryRouter = require("./api/routes/categoriesRoutes");
+const pictureRouter = require("./api/routes/pictureRoutes");
 const userRouter = require("./api/routes/userRoutes");
-const app = express();
+const VolunteerRoutes= require('./api/routes/VolunteerRoutes')
+const CommentRoutes= require('./api/routes/commentsRoutes')
+
+
+app.use((req, res, next) => {
+  const error = new Error('Strona o podanym adresie nie istnieje');
+  next()
+});
 
 dotenv.config();
 
+
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI,
+    { 
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true, 
+    })
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -24,17 +34,25 @@ mongoose
     console.log('Connection failed', error);
   });
 
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.json());
+app.use('/volunteer', VolunteerRoutes);
+app.use('/comments', CommentRoutes);
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
+<<<<<<< HEAD
 app.use(
   '/',
   swaggerUi.serve, 
   swaggerUi.setup(swaggerDocument)
 );
+=======
+app.use('/picture', pictureRouter);
+>>>>>>> main
 
 
 module.exports = app;

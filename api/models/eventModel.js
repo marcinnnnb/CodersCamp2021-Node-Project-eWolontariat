@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const eventSchema = new mongoose.Schema({
     owner: { 
         type: Schema.Types.ObjectId, 
-        ref: 'User' 
+        ref: 'User',
+        required: true
     },
     organization: { 
         type: Schema.Types.ObjectId, 
@@ -13,17 +14,21 @@ const eventSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxlength: 60
     },
     description: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxlength: 3000
     },
     shortDescription: {
         type: String,
         maxLength: 200,
-        //default: this.description.slice(0,100).concat("..."),
+        default: function() {
+            return (this.description.slice(0,100).concat("..."));
+        },
         trim: true
     },
     dateStarted: {
@@ -48,7 +53,7 @@ const eventSchema = new mongoose.Schema({
     }],
     volunteersNeeded: {
         type: Number,
-        //required: true
+        required: true
     },
     isFinished: {
         type: Boolean,
