@@ -11,25 +11,26 @@ exports.getAllEvents = async (req, res) => {
     events = await Event.find().sort({ dateStarted: 'desc' });
     
   } else {
-    events = [];
-    
-    search = await Event.find({
+      events = await Event.find({
         $or: [
-          { 'title': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } },
-          { 'description': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } },
-          { 'shortDescription': { $regex: '.*' + `^((?!${req.query.search.trim()}).)*$`+ '.*' } }
+          { 'title': { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$`+ '.*' } },
+          { 'description': { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$`+ '.*' } },
+          { 'shortDescription': { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$`+ '.*' } }
         ]
       }).populate({
         path: 'categories',
         match: {
           name: req.query.category
-        }
-      }).sort({ dateStarted: 'desc' }).exec();  
-  
-    events.push(search);
+        },
+      }).sort({ dateStarted: 'desc' }).exec();
   };
 
-  } catch (error) {
+  events = events.filter(function(event) {
+    if(Array.isArray(event.categories)) {
+      return event.categories.length > 0;
+    } 
+  });
+} catch (error) {
     return res.status(400).json({ error: error.message });
   }
   return res.send({ events: events });
@@ -86,7 +87,7 @@ exports.getEventComments = async (req, res) => {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   };
-  return res.send(event.comments);
+  return res.send(event.comments).sort({ date: 'desc' }).exec();
 };
 
 exports.howManyEventsSucceeded =  async (req, res) => {
