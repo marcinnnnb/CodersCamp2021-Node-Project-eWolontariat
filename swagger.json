@@ -15,6 +15,10 @@
       {
         "name": "User",
         "description": "API dla User"
+      },
+      {
+        "name": "Event",
+        "description": "API dla Event"
       }
     ],
     "schemes": [
@@ -133,6 +137,98 @@
             }
           }
         }
+      },
+      "/event": {
+        "post": {
+          "tags": [
+            "Event"
+          ],
+          "summary": "Create new event in system",
+          "parameters": [
+            {
+              "name": "event",
+              "in": "body",
+              "description": "Event that we want to create",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New event was created",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Event"
+          ],
+          "summary": "Get all events",
+          "responses": {
+            "200": {
+              "description": "New event was created",
+              "schema": {
+                "$ref": "#/definitions/events"
+              }
+            }
+          }
+        } 
+      },
+      "/event/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "put": {
+          "summary": "Update event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "Event with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Event is updated",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            }
+          }
+        },
+        "get": {
+          "summary": "Get event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single event",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            }
+          }
+        }
       }
     },
     "definitions": {
@@ -212,6 +308,66 @@
           "email": "tomaszlipski12@gmail.com",   
           "password": "Tomasz_123"   
         }
+      },
+      "event": {
+        "required": [
+          "owner",
+          "title",
+          "description",
+          "volunteersNeeded"
+        ],
+        "properties": {
+          "owner": {
+            "type": "Schema.Types.ObjectId"
+          },
+          "organization": {
+            "type": "Schema.Types.ObjectId"
+          },
+          "title": {
+            "type": "string"    
+          },
+          "description": {
+            "type": "string"    
+          },
+          "shortDescription": {
+            "type": "string"    
+          },
+          "dateStarted": {
+            "type": "Date"
+          },
+          "dateExpired": {
+            "type": "Date"
+          },
+          "volunteers": {
+            "type": "Schema.Types.ObjectId"    
+          },
+          "categories": {
+            "type": "Schema.Types.ObjectId"    
+          },
+          "comments": {
+            "type": "Schema.Types.ObjectId"    
+          },
+          "volunteersNeeded": {
+            "type": "number"    
+          },
+          "isFinished": {
+            "type": "Boolean"    
+          },
+          "isSucceeded": {
+            "type": "Boolean"    
+          }
+        },
+        "example":{
+          "title": "Szukam korepetytora",
+          "description": "Potrzebuję pomocy przy przerobieniu materiału do matury rozszerzonej z matematyki.",
+          "dateStarted": "2022-03-03T18:05:48.095Z",
+          "categories": ["621f854ecdea28d97a280afd"],
+          "volunteersNeeded": 1
+        }
+      },
+      "events": {
+        "type": "array",
+        "$ref": "#/definitions/event"
       }
     }
   }
