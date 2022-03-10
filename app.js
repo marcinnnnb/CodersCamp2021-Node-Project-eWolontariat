@@ -2,7 +2,6 @@ const helmet = require('helmet');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express')
 swaggerDocument = require('./swagger.json')
-//const swaggerJsDoc = require('swagger-jsdoc')
 const eventRouter = require("./api/routes/eventRoutes");
 const categoryRouter = require("./api/routes/categoryRoutes");
 const Event = require("./api/models/eventModel");
