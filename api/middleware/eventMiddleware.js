@@ -19,7 +19,7 @@ exports.isLoggedUser = async (req, res, next) => {
             }
          });
 
-        if (req.params.id && req.method === "PUT") {
+        if (req.params.id && (req.method === "PUT" || req.method === "DELETE" )) {
             const event = await Event.findById(req.params.id).catch((err)=> 
             {
                 res.status(404);
