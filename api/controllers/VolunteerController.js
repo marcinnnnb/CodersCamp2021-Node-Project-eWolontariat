@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Volunteer = require('../Models/VolunteerModel');
-const User = require('../Models/userModel');
+const Volunteer = require('../models/VolunteerModel');
+const User = require('../models/userModel');
 const url= require('url');
 const {createComment,deleteComment}  = require('./commentsController');
 
