@@ -9,6 +9,7 @@ const organizationSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+    maxlength: 150,
   },
   krsNumber: {
     type: String,
