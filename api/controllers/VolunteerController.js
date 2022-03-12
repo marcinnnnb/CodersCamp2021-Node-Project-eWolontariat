@@ -132,10 +132,13 @@ exports.allVolunteers = async (req, res, next) => {
   }
 
   exports.deleteVolunteerComment = async (req, res) => {  
+       
     await Volunteer.findOneAndUpdate(
         { _id: req.params.id}, 
         { $pull: { comments:{_id: req.params.commentId } } })
-    await deleteComment({id : req.params.commentId}); 
+      
+        
+    await deleteComment({_id: req.params.commentId}); 
        
     res.status(200).json()
   }
