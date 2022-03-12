@@ -68,14 +68,14 @@ exports.getOneComment= async (req,res)=>{
         try {
           const deletedComment = await Comment
             .findByIdAndRemove(
-              {_id: body._id}
+              {_id: body.id}
             )
             .exec()
       
           if (!deletedComment) {
             throw new Error (' Nie ma takiego komentarza')
           }
-          return ('Komentarz usunięty')
+      
         } catch (error) {
           console.error(error)
         }
