@@ -10,7 +10,7 @@ exports.getPictureById = async (req, res) => {
     } catch (error) {
         return res.status(400).send({message: error.message});
     }
-    return res.send(picture.img.data.toString('base64')); 
+    return res.send(picture.img.data); 
 };
 
 exports.loadPicture = async (req, res) => {
