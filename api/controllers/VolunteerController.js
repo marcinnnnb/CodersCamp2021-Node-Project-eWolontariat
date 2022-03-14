@@ -71,6 +71,7 @@ exports.allVolunteers = async (req, res, next) => {
         {
          categories: req.body.categories,
          description: req.body.description,
+         shortDescription: req.body.shortDescription,
          avatar: req.body.avatar
         },
         { new: true }
@@ -106,6 +107,7 @@ exports.allVolunteers = async (req, res, next) => {
      lastName: user.lastName,
      categories:  req.body.categories,
      description: req.body.description,
+     shortDescription: req.body.shortDescription,
      avatar: req.body.avatar
     })
   const newVolunteer=await volunteer.save()

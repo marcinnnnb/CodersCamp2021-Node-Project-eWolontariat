@@ -26,6 +26,14 @@ const volunteerSchema = new mongoose.Schema({
         require: true,
         min:10
     },
+    shortDescription: {
+        type: String,
+        maxLength: 200,
+        default: function() {
+            return (this.description.slice(0,100).concat("..."));
+        },
+        trim: true
+    },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment"
