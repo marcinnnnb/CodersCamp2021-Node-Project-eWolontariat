@@ -38,8 +38,12 @@ const volunteerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Picture"
     }],
-    rate: {
-        type: Number
+    rate: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Rate"
+    }],
+    averageRate:{
+        type:Number
     }
     
 })
