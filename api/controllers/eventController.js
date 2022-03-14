@@ -45,7 +45,7 @@ exports.saveNewEvent = (async (req, res, next) => {
 exports.getOneEvent = async (req, res) => {
   let event;
   try{
-    event = await Event.findById(req.params.id).populate("comments").populate("categories").catch(error=>{
+    event = await Event.findById(req.params.id).populate("comments").populate("categories").populate("picture").catch(error=>{
       throw new Error('There is no event with this ID');
     });
   } catch (error) {
