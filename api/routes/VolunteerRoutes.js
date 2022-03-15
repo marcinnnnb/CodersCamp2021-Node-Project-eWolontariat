@@ -25,6 +25,9 @@ router.post ('/:id/comments',auth.Userdata,VolunteerController.addVolunteerComme
 //delete comment frome particular one
 router.delete ('/:id/comments/:commentId',auth.Userdata,VolunteerController.deleteVolunteerComment);
 
+//add rate to particular one
+router.post ('/:id/rate',VolunteerController.addVolunteerRate);
+
 //getting events 
 router.get ('/:id/events',VolunteerController.getVolunteerEvents);
 
