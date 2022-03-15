@@ -43,10 +43,13 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Picture"
     }],
-
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event"
+    }]
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.models.User || mongoose.model('User', userSchema)
 
 const registerValidation= (data) =>{
     const schema = Joi.object({

@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
-const Volunteer = require('../Models/VolunteerModel');
+const Volunteer = require('../models/VolunteerModel');
+const User = require('../models/userModel');
 const url= require('url');
-
+const {createComment,deleteComment}  = require('./commentsController');
+const {createRate}= require('./rateController');
+const { countDocuments } = require('../models/commentsModel');
 
 
 // Get one volunteer
@@ -9,6 +12,8 @@ exports.getOneVolunteer= async (req,res)=>{
   let volunteerById
   try {
     volunteerById= await Volunteer.findById(req.params.id)
+    .populate('categories')
+    .populate('comments')
     .catch(error => {
       console.log(error);
       res.status(404)
@@ -28,17 +33,20 @@ exports.getOneVolunteer= async (req,res)=>{
 exports.allVolunteers = async (req, res, next) => {
   
   const queryObject= url.parse(req.url,true).query;
+  let firstName = queryObject.firstName || "";
+  let lastName = queryObject.lastName || "";
   let volunteers;
    
   try{    
 
   if(!queryObject.categories) {
-    volunteers= await Volunteer.aggregate().populate('categories').exec();
+    volunteers= await Volunteer.find({  firstName : { $regex: '.*' + firstName   + '.*' }, lastName : { $regex: '.*' + lastName + '.*' }})
+      .populate('categories').populate('user', '-password').exec();
   } else {
-    volunteers = await Volunteer.find().populate({
+    volunteers = await Volunteer.find({ firstName : { $regex: '.*' + firstName   + '.*' }, lastName : { $regex: '.*' + lastName + '.*' }}).populate({
       path: 'categories',
       match: {
-        type: queryObject.categories
+        name: queryObject.categories
       }
     }).exec();  
 
@@ -63,7 +71,9 @@ exports.allVolunteers = async (req, res, next) => {
         {_id: req.params.id},
         {
          categories: req.body.categories,
-         description: req.body.description
+         description: req.body.description,
+         shortDescription: req.body.shortDescription,
+         avatar: req.body.avatar
         },
         { new: true }
       )
@@ -90,10 +100,16 @@ exports.allVolunteers = async (req, res, next) => {
 
   exports.createVolunteer = async (req, res)=>{
     try{
+    const user = await User.findById(req.user);
+
     const volunteer = new Volunteer({
      user:req.user,
+     firstName: user.firstName,
+     lastName: user.lastName,
      categories:  req.body.categories,
-     description: req.body.description
+     description: req.body.description,
+     shortDescription: req.body.shortDescription,
+     avatar: req.body.avatar
     })
   const newVolunteer=await volunteer.save()
   res.status(201).json(newVolunteer)
@@ -112,11 +128,73 @@ exports.allVolunteers = async (req, res, next) => {
 
   };
 
+  exports.addVolunteerComment = async (req, res) => {
+     let comment = await createComment({author : req.user._id, content: req.body.content});
+     await Volunteer.findOneAndUpdate(
+        { _id: req.params.id}, 
+        { $push: { comments: comment } })
+    res.status(200).json(comment)
+  }
+
+  exports.deleteVolunteerComment = async (req, res) => {  
+
+    try {
+      await Volunteer.findOneAndUpdate(
+        { _id: req.params.id}, 
+        { $pull: { comments:{_id: req.params.commentId } } })
+      await deleteComment({id : req.params.commentId}); 
+     } catch (error) {
+      return res.status(200);
+    };
+    return res.status(201).json({ message: `Komentarz usunięty!`});
+  }
+
+
   //get events from volunteer. 
   
   exports.getVolunteerEvents = async (req, res) => {
     let volunteersEvents;
     volunteersEvents = await Volunteer.findById(req.params.id);
     res.send(volunteersEvents.events);
- 
+
   };
+
+  // Add rate to volunteer
+
+  exports.addVolunteerRate = async (req, res) => {
+    let rate = await createRate({ rate: req.body.rate});
+    
+   let volunteer= await Volunteer.findOneAndUpdate(
+       { _id: req.params.id}, 
+       { $push: { rate: rate } },
+      )
+     
+   res.status(200).json(rate)
+
+volunteerRates= await Volunteer.findById(req.params.id)
+    .populate('rate');
+
+    let rates=volunteerRates.rate;
+
+    let sum=0;
+    let count=0;
+    rates.forEach(element => {
+     sum=sum+element.rate 
+     count++;
+    });
+
+    let average= (sum/count).toFixed(2) 
+
+    let volunteerAverage= await Volunteer.findOneAndUpdate(
+      { _id: req.params.id}, 
+      {averageRate:average}
+     )
+  
+ };
+
+ // get volunteers count
+
+ exports.getVolunteersCount = async (req, res) => {
+    const volunteersCount = await Volunteer.find().count();
+    return res.send({ volunteers: volunteersCount });
+ };

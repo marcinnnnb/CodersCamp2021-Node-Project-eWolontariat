@@ -9,12 +9,6 @@ router.get('/comment/:id', commentsController.getOneComment);
 //updating one 
 router.put('/comment/:id', auth.Userdata, commentsController.updateComment);
 
-//creating 
-router.post ('/volunteer/:id/comment', auth.Userdata , commentsController.createComment);
-
-//delete comment
-router.delete('/comment/:id',auth.Userdata, commentsController.deleteComment)
-
 
 module.exports=router
 
