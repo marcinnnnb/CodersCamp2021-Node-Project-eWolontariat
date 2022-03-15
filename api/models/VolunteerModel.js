@@ -30,7 +30,7 @@ const volunteerSchema = new mongoose.Schema({
         type: String,
         maxLength: 200,
         default: function() {
-            return (this.description.slice(0,100).concat("..."));
+            return (this.description.slice(0,40).concat("..."));
         },
         trim: true
     },
