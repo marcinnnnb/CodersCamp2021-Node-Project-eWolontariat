@@ -10,12 +10,12 @@ router.get('/:id', OrganizationController.getOneOrganization);
 router.get('/', OrganizationController.getAllOrganizations);
 
 // Create organization
-// router.post('/', OrganizationController.createOrganization);
+router.post('/', OrganizationController.createOrganization);
 
 // Update organization
-// router.patch('/:id', auth.loggedOrganization, OrganizationController.updateOrganization);
+router.patch('/:id', auth.loggedOrganization, OrganizationController.updateOrganization);
 
 // Get events
-// router.get('/:id/events', OrganizationController.getOneOrganizationEvents);
+router.get('/:id/events', OrganizationController.getOneOrganizationEvents);
 
 module.exports = router;

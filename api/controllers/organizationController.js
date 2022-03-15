@@ -27,7 +27,7 @@ exports.getOneOrganization = async (req, res) => {
 
 exports.getAllOrganizations = async (req, res, next) => {
   const results = await Organization.find();
-  res.send(reslts);
+  res.send(results);
 };
 
 // Create organization
@@ -37,8 +37,8 @@ exports.createOrganization = async (req, res) => {
     const user = await User.findById(req.user);
 
     const organizationCreate = new Organization({
-      user: req.user,
-      name: user.name,
+      owner: req.user,
+      name: req.body.name,
       description: req.body.description,
       krsNumber: req.body.krsNumber,
     });
@@ -58,6 +58,7 @@ exports.updateOrganization = async (req, res) => {
       {
         descritpion: req.body.description,
         krsNumber: req.body.krsNumber,
+        events: req.body.events,
       },
       { new: true }
     )
@@ -77,5 +78,25 @@ exports.updateOrganization = async (req, res) => {
   }
 };
 
-// Get events - do tego nie wiem jak podejsc?
-exports.getOneOrganizationEvents;
+// Get events
+exports.getOneOrganizationEvents = async (req, res) => {
+  let organizationById;
+  let organizationEvents;
+  try {
+    organizationById = await Organization.findById(req.params.id)
+      .populate('events')
+      .catch((error) => {
+        res.status(404);
+        throw new Error('Podana organizacja nie istnieje');
+      });
+    if (organizationById == null) {
+      res.status(404);
+      throw new Error('Podana organizacja nie istnieje');
+    }
+    organizationEvents = organizationById.events || [];
+  } catch (error) {
+    return res.json({ message: error.message });
+  }
+  console.log(organizationById.events);
+  return res.send(organizationEvents);
+};

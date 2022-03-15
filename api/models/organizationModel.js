@@ -21,16 +21,13 @@ const organizationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Events',
   },
-  picture: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Picture',
-    },
-  ],
+  picture: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Picture',
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
   },
 });
 
