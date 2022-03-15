@@ -31,6 +31,9 @@ router.post ('/:id/rate',VolunteerController.addVolunteerRate);
 //getting events 
 router.get ('/:id/events',VolunteerController.getVolunteerEvents);
 
+//gettting volunteers count
+router.get('/all/count',VolunteerController.getVolunteersCount);
+
 
 
 

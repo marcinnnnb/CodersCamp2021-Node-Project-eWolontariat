@@ -190,5 +190,11 @@ volunteerRates= await Volunteer.findById(req.params.id)
       {averageRate:average}
      )
   
- }
+ };
 
+ // get volunteers count
+
+ exports.getVolunteersCount = async (req, res) => {
+    const volunteersCount = await Volunteer.find().count();
+    return res.send({ volunteers: volunteersCount });
+ };
