@@ -17,10 +17,10 @@ const organizationSchema = new mongoose.Schema({
     minlength: 10,
     maxlength: 10,
   },
-  events: {
+  events: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Events',
-  },
+    ref: 'Event',
+  }],
   picture: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Picture',

@@ -83,8 +83,9 @@ exports.getOneOrganizationEvents = async (req, res) => {
   let organizationById;
   let organizationEvents;
   try {
-    organizationById = await Organization.findById(req.params.id)
-      .populate('events')
+    console.log(req.params.id)
+    organizationById = await Organization.findOne({ _id: req.params.id })
+      .populate('events')x
       .catch((error) => {
         res.status(404);
         throw new Error('Podana organizacja nie istnieje');
