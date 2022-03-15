@@ -8,7 +8,7 @@ exports.getAllEvents = async (req, res) => {
   try {
 
   if (!req.query.category && !req.query.search){
-    events = await Event.find().sort({ dateStarted: 'desc' });
+    events = await Event.find().sort({ dateStarted: 'desc' }).populate('categories');
     
   } else {
       events = await Event.find({
@@ -137,6 +137,7 @@ function saveEvent() {
         dateExpired: req.body.dateExpired,
         volunteersNeeded: req.body.volunteersNeeded,
         categories: req.body.categories,
+        isSucceeded: req.body.isSucceeded,
         picture: req.body.picture
         });
 

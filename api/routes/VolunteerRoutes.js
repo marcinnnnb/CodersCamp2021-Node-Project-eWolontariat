@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const VolunteerController= require('../controllers/VolunteerController');
 const auth = require('../middleware/VolunteerMiddleware');
-
+const { upload } = require("../middleware/pictureMiddleware");
 
 //getting one
 router.get('/:id', VolunteerController.getOneVolunteer);
@@ -11,10 +11,10 @@ router.get('/:id', VolunteerController.getOneVolunteer);
 router.get('/',VolunteerController.allVolunteers);
 
 //updating one 
-router.patch('/:id', auth.loggedVolunteer, VolunteerController.updateVolunteer);
+router.patch('/:id', auth.loggedVolunteer,  upload.single('image'), VolunteerController.updateVolunteer);
 
 //creating 
-router.post ('/', auth.Userdata, VolunteerController.createVolunteer);
+router.post ('/', auth.Userdata, upload.single('image'), VolunteerController.createVolunteer);
 
 //getting comments to particular one
 router.get ('/:id/comments',VolunteerController.getVolunteerComments);
