@@ -26,13 +26,12 @@ exports.registration = async (req,res) => {
             lastName:req.body.lastName,
             login: req.body.login,
             email: req.body.email,
-            password: hashedPassword,
-            picture: req.body.picture
+            password: hashedPassword
         });
         
       const newUser=await user.save()
       console.log(newUser)
-      res.status(201).send('Rejestracja przebiegła pomyślnie.')
+      res.status(201).send('Rejestracja przebiegła pomyślnie.');
       } catch(error) {
         res.status(400).json({message:error.message})
       }
@@ -85,7 +84,8 @@ exports.updatedUser = async (req, res) => {
              lastName : req.body.lastName,
              login: req.body.login,
              email: req.body.email,
-             password: req.body.password
+             password: req.body.password,
+             avatar: req.body.avatar
             },
             { new: true }
           )
@@ -101,3 +101,15 @@ exports.updatedUser = async (req, res) => {
         res.status(400).send('Error')
       }
     }
+
+exports.getLoggedInUser = async (req, res) => {
+  let user;
+  try{
+    user = await User.findOne({login: req.body.login}).select('-password').catch(error=>{
+      throw new Error('There is no user with this login');
+    });
+  } catch (error) {
+    return res.status(400).send({message:error.message});
+  };
+  return res.send(user);
+};
