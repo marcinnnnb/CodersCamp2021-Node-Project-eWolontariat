@@ -6,7 +6,7 @@ const { upload } = require("../middleware/pictureMiddleware");
 router.get('/:id', userController.getUser);
 router.post('/register', userController.registration);
 router.post('/login', userController.logging);
-router.get('/login/:login', userController.getLoggedInUser);
-router.patch('/:id',auth.loggedUser, upload.single('image'), userController.updatedUser);
+router.get('/login/:login', auth.loggedUser, userController.getLoggedInUser);
+router.patch('/:id', auth.loggedUser, upload.single('image'), userController.updatedUser);
 
 module.exports = router;

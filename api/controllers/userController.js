@@ -72,33 +72,24 @@ exports.getUser = async (req, res) => {
 
 exports.updatedUser = async (req, res) => {
 
-    const {error} = updateValidation(req.body)
-     if(error) return res.status(400).send(error.details[0].message);
+    const {error} = updateValidation(req.body);   
+
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
-        const updatedUser = await User
-          .findOneAndUpdate(
-            {_id: req.params.id},
-            {
-             firstName : req.body.firstName,
-             lastName : req.body.lastName,
-             login: req.body.login,
-             email: req.body.email,
-             password: req.body.password,
-             avatar: req.body.avatar
-            },
-            { new: true }
-          )
-          .exec()
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      
+      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec();
           console.log(updatedUser)
     
         if (!updatedUser) {
-          return res.status(400).send(' Nie ma takiego użytkownika')
+          return res.status(400).send(' Nie ma takiego użytkownika');
         }
-        res.status(200).send('Zaktualizowano dane')
+        res.status(200).send('Zaktualizowano dane');
       } catch (e) {
-        console.error(e)
-        res.status(400).send('Error')
+        console.error(e);
+        res.status(400).send('Error');
       }
     }
 
