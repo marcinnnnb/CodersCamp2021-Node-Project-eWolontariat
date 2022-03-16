@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Category = require('../Models/categoriesModel')
+const Category = require('../models/categoriesModel')
 
 
 // Get one category

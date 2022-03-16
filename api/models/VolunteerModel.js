@@ -26,6 +26,14 @@ const volunteerSchema = new mongoose.Schema({
         require: true,
         min:10
     },
+    shortDescription: {
+        type: String,
+        maxLength: 200,
+        default: function() {
+            return (this.description.slice(0,40).concat("..."));
+        },
+        trim: true
+    },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment"
@@ -34,10 +42,21 @@ const volunteerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Events"
     }],
+    avatar: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Picture"
+    },
     picture: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Picture"
     }],
+    rate: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Rate"
+    }],
+    averageRate:{
+        type:Number
+    }
     
 })
 

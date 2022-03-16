@@ -13,7 +13,7 @@
 ## Zespół projektowy
 
 Zespół pracował w ramach kursu [CodersCamp 2021](https://coderscamp.pl/).
-Aplikację została wykonana przez uczestników kursu pod okiem dwóch mentorów.
+Aplikacja została wykonana przez uczestników kursu pod okiem dwóch mentorów.
 
 **Mentorzy**: Dariusz Knysak, Paweł Michalak
 
@@ -34,13 +34,13 @@ Wersja demonstracyjna aplikacji jest dostępna [TUTAJ].
 
 ### Cel projektu
 
-Celem projektu było napisanie aplikacji wykorzystującej wiedzę nabytą z trzeciego działu kursu tj. z następujących technologii:
+Celem projektu było napisanie aplikacji wykorzystującej wiedzę nabytą w trzecim dziale kursu tj. z następujących technologii:
 * Node.js
 * Express.js
 * Atlas MongoDB
 * Mongoose
 
-Zespół projektowy zdecydował się na aplikację własnego pomysłu. eWolontariat jest aplikacją umożliwiającą użytkownikowi zapisanie się do grona Wolontariuszy i aktywnie działanie wśród nich. Możliwe jest również stworzenie profilu organizacji, która poszukuje wolontariuszy i udostępnia aktualne zadania.
+Zespół projektowy zdecydował się na aplikację własnego pomysłu i jest kontynuacją poprzedniego zadania projektowego w ramach programu. 
 
 Aplikacja została wykonana wg wymagań dostarczonych przez organizatorów CodersCamp.
 Szablon projektu dostępny jest [TUTAJ](https://github.com/KrystianKjjk/CodersCamp2020.Project.FullStack-Node-React.OrganizationApp/blob/main/README.md).
@@ -48,10 +48,10 @@ Szablon projektu dostępny jest [TUTAJ](https://github.com/KrystianKjjk/CodersCa
 ### Działanie aplikacji
 
 _Obsługiwane zapytania_
-* /api/user'
-* /api/user/login'
-* /api/user/register'
-* /api/event'
+* /api/user
+* /api/user/login
+* /api/user/register
+* /api/event
 * /api/volunteer
 
 
@@ -89,4 +89,4 @@ Kod produkcyjny aplikacji znajduje się w katalogu `src`.
 
 ### Organizacja pracy
 
-Przy użyciu narzędzia GitHubProjects rozdzielono poszczególne moduły. Komunikacja zespołu odbywała się głównie przez Google Meets i Discord.
+Przy użyciu narzędzia GitHub Projects rozdzielono poszczególne moduły. Komunikacja zespołu odbywała się głównie przez Google Meets i Discord.
