@@ -26,13 +26,12 @@ exports.registration = async (req,res) => {
             lastName:req.body.lastName,
             login: req.body.login,
             email: req.body.email,
-            password: hashedPassword,
-            picture: req.body.picture
+            password: hashedPassword
         });
         
       const newUser=await user.save()
       console.log(newUser)
-      res.status(201).send('Rejestracja przebiegła pomyślnie.')
+      res.status(201).send('Rejestracja przebiegła pomyślnie.');
       } catch(error) {
         res.status(400).json({message:error.message})
       }
@@ -73,31 +72,35 @@ exports.getUser = async (req, res) => {
 
 exports.updatedUser = async (req, res) => {
 
-    const {error} = updateValidation(req.body)
-     if(error) return res.status(400).send(error.details[0].message);
+    const {error} = updateValidation(req.body);   
+
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
-        const updatedUser = await User
-          .findOneAndUpdate(
-            {_id: req.params.id},
-            {
-             firstName : req.body.firstName,
-             lastName : req.body.lastName,
-             login: req.body.login,
-             email: req.body.email,
-             password: req.body.password
-            },
-            { new: true }
-          )
-          .exec()
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      
+      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec();
           console.log(updatedUser)
     
         if (!updatedUser) {
-          return res.status(400).send(' Nie ma takiego użytkownika')
+          return res.status(400).send(' Nie ma takiego użytkownika');
         }
-        res.status(200).send('Zaktualizowano dane')
+        res.status(200).send('Zaktualizowano dane');
       } catch (e) {
-        console.error(e)
-        res.status(400).send('Error')
+        console.error(e);
+        res.status(400).send('Error');
       }
     }
+
+exports.getLoggedInUser = async (req, res) => {
+  let user;
+  try{
+    user = await User.findOne({login: req.body.login}).select('-password').catch(error=>{
+      throw new Error('There is no user with this login');
+    });
+  } catch (error) {
+    return res.status(400).send({message:error.message});
+  };
+  return res.send(user);
+};
