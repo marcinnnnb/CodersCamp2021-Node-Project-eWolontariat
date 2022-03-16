@@ -8,18 +8,17 @@ const eventRouter = require("./api/routes/eventRoutes");
 const categoryRouter = require("./api/routes/categoriesRoutes");
 const pictureRouter = require("./api/routes/pictureRoutes");
 const userRouter = require("./api/routes/userRoutes");
-const VolunteerRoutes= require('./api/routes/VolunteerRoutes');
-const CommentRoutes= require('./api/routes/commentsRoutes');
+const VolunteerRoutes = require('./api/routes/VolunteerRoutes');
+const CommentRoutes = require('./api/routes/commentsRoutes');
+const Organization = require('./api/routes/organizationRoutes');
 const cors = require('cors');
-
 
 app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
-  next()
+  next();
 });
 app.use(cors());
 dotenv.config();
-
 
 mongoose
   .connect(process.env.MONGODB_URI,
@@ -36,7 +35,6 @@ mongoose
     console.log('Connection failed', error);
   });
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -47,7 +45,6 @@ app.use('/user', userRouter, cors());
 app.use('/event', eventRouter, cors());
 app.use('/category', categoryRouter, cors());
 app.use('/picture', pictureRouter, cors());
+app.use('/organization', Organization, cors());
 
 module.exports = app;
-
-

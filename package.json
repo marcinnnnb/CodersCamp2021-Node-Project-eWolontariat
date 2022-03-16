@@ -10,7 +10,7 @@
     "test": "mocha"
   },
   "engines": {
-    "node": "v16.13.0"
+    "node": "14.17.6"
   },
   "repository": {
     "type": "git",
