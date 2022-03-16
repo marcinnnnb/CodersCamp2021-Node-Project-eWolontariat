@@ -77,14 +77,18 @@ exports.updatedUser = async (req, res) => {
     if(error) return res.status(400).send('Dane logowania są niepoprawane');
 
     try {
+      if(req.body.password){
+        const updatedPassword = await User.findByIdAndUpdate(req.params.id, req.body.password, {new: true}).exec();
+        console.log(updatedPassword)
+      }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
       
-      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec();
+      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).select('-password').exec();
           console.log(updatedUser)
     
         if (!updatedUser) {
-          return res.status(400).send(' Nie ma takiego użytkownika');
+          return res.status(400).send('Nie ma takiego użytkownika');
         }
         res.status(200).send('Zaktualizowano dane');
       } catch (e) {
