@@ -19,6 +19,10 @@
       {
         "name": "Event",
         "description": "API dla Event"
+      },
+      {
+        "name": "Volunteer",
+        "description": "API dla Volunteer"
       }
     ],
     "schemes": [
@@ -173,7 +177,7 @@
           "summary": "Get all events",
           "responses": {
             "200": {
-              "description": "New event was created",
+              "description": "Get all events",
               "schema": {
                 "$ref": "#/definitions/events"
               }
@@ -198,7 +202,7 @@
           ],
           "parameters": [
             {
-              "name": "user",
+              "name": "event",
               "in": "body",
               "description": "Event with new values of properties",
               "schema": {
@@ -225,6 +229,98 @@
               "description": "Get single event",
               "schema": {
                 "$ref": "#/definitions/event"
+              }
+            }
+          }
+        }
+      },
+      "/volunteer": {
+        "post": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Create new volunteer in system",
+          "parameters": [
+            {
+              "name": "volunteer",
+              "in": "body",
+              "description": "Volunteer that we want to create",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New volunteer was created",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Get all volunteers",
+          "responses": {
+            "200": {
+              "description": "Get all volunteers",
+              "schema": {
+                "$ref": "#/definitions/volunteers"
+              }
+            }
+          }
+        }
+      },
+      "/volunteer/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single volunteer",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Volunteer with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Volunteer is updated",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
               }
             }
           }
@@ -368,6 +464,33 @@
       "events": {
         "type": "array",
         "$ref": "#/definitions/event"
+      },
+      "volunteer": {
+        "required": [
+          "firstName",
+          "lastName",
+          "description"
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string" 
+          }   
+        },
+        "example":{
+          "firstName": "Tomasz",
+          "lastName": "Lipski",
+          "description": "Mam 16 lat"  
+        }
+      },
+      "volunteers": {
+        "type": "array",
+        "$ref": "#/definitions/volunteer"
       }
     }
   }
