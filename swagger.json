@@ -27,6 +27,18 @@
       {
         "name": "Organization",
         "description": "API dla Organization"
+      },
+      {
+        "name": "Picture",
+        "description": "API dla Picture"
+      },
+      {
+        "name": "Category",
+        "description": "API dla Category"
+      },
+      {
+        "name": "Comment",
+        "description": "API dla Comment"
       }
     ],
     "schemes": [
@@ -146,6 +158,22 @@
           }
         }
       },
+      "/user/login/{login}": {
+        "get": {
+          "summary": "Get user with given login",
+          "tags": [
+            "User"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get user with given login",
+              "schema": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          }
+        }
+      },
       "/event": {
         "post": {
           "tags": [
@@ -234,6 +262,94 @@
               "schema": {
                 "$ref": "#/definitions/event"
               }
+            }
+          }
+        }
+      },
+      "/event/{id}/volunteers": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get volunteers of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get volunteers of event with given ID"
+            }
+          }
+        }
+      },
+      "/event/{id}/comments": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get comments of event with given ID"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "parameters": [
+            {
+              "name": "event",
+              "in": "body",
+              "description": "Create comments of event with given ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of event was created"
+            }
+          }
+        }
+      },
+      "/event/{id}/comments/{commentId}": {
+        "delete": {
+          "summary": "Delete comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of event was deleted"
+            }
+          }
+        }
+      },
+      "/event/{id}/count/{isSucceeded}": {
+        "get": {
+          "summary": "Get count of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get count of event with given ID"
             }
           }
         }
@@ -330,6 +446,126 @@
           }
         }
       },
+      "/volunteer/{id}/comments": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get comments of volunteer"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Create comments of volunteer with given ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Volunteer is updated",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/comments/{commentId}": {
+        "delete": {
+          "summary": "Delete comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of volunteer was deleted"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/rate": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "post": {
+          "summary": "Create rate of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Create rate of volunteer with given ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Rate of volunteer was created"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/events": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get events of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get events of volunteer"
+            }
+          }
+        }
+      },
+      "/volunteer/all/count":{
+        "get": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Get all volunteers and count",
+          "responses": {
+            "200": {
+              "description": "Get all volunteers and count"
+            }
+          }
+        }
+      },
       "/organization": {
         "post": {
           "tags": [
@@ -418,6 +654,183 @@
               "schema": {
                 "$ref": "#/definitions/organization"
               }
+            }
+          }
+        }
+      },
+      "/organization/{id}/events": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of organization",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get events of organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get events of organization",
+              "schema": {
+                "$ref": "#/definitions/events"
+              }
+            }
+          }
+        }
+      },
+      "/picture": {
+        "post": {
+          "tags": [
+            "Picture"
+          ],
+          "summary": "Add picture to the profile",
+          "parameters": [
+            {
+              "name": "picture",
+              "in": "body",
+              "description": "Add picture to the profile"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Picture was added"
+            }
+          }
+        }
+      },
+      "/picture/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of picture",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get picture with given ID",
+          "tags": [
+            "Picture"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single picture"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete picture with given ID",
+          "tags": [
+            "Picture"
+          ],
+          "responses": {
+            "200": {
+              "description": "Picture was deleted"
+            }
+          }
+        }
+      },
+      "/category": {
+        "post": {
+          "tags": [
+            "Category"
+          ],
+          "summary": "Create new category in system",
+          "parameters": [
+            {
+              "name": "category",
+              "in": "body",
+              "description": "Category that we want to create"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New category was created"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Category"
+          ],
+          "summary": "Get all categories",
+          "responses": {
+            "200": {
+              "description": "Get all categories"
+            }
+          }
+        } 
+      },
+      "/category/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of category",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get category with given ID",
+          "tags": [
+            "Category"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single category"
+            }
+          }
+        }
+      },
+      "/comment/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of comment",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comment with given ID",
+          "tags": [
+            "Comment"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single Comment"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update comment with given ID",
+          "tags": [
+            "Comment"
+          ],
+          "parameters": [
+            {
+              "name": "comment",
+              "in": "body",
+              "description": "Comment with new values of properties"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comment was updated"
             }
           }
         }
