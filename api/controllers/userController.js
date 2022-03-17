@@ -46,10 +46,10 @@ exports.logging = async (req,res) => {
      if(error) return res.status(400).send('Podane dane nie spełniają kryterium.');
 
     const user = await User.findOne({login: req.body.login});
-     if(!user) return res.status(400).send('Podany login nie istnieje.')
+     if(!user) return res.status(400).send('Podany login/hasło nie istnieje.')
 
     const validPass = await bcrypt.compare(req.body.password, user.password)
-    if(!validPass) return res.status(400).send('Podane hasło nie istnieje.')
+    if(!validPass) return res.status(400).send('Podane login/hasło nie istnieje.')
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
     res.header('auth-token', token).send('Jesteś zalogowany!')

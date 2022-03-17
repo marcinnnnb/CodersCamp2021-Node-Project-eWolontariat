@@ -120,6 +120,9 @@
           }
         ],
         "patch": {
+          "security": [{
+            "auth-token": []
+          }],
           "summary": "Update user with given ID",
           "tags": [
             "User"
@@ -839,6 +842,7 @@
     "definitions": {
       "user": {
         "required": [
+          "_id",
           "firstName",
           "lastName",
           "login",
@@ -846,6 +850,9 @@
           "password"
         ],
         "properties": {
+          "_id": {
+            "type": "mongoose.Types.ObjectId"
+          },
           "firstName": {
             "type": "string"
           },
@@ -860,6 +867,22 @@
           },
           "password": {
             "type": "string"    
+          },
+          "picture": {
+            "type": ["mongoose.Schema.Types.ObjectId"]
+          },
+          "events": {
+            "type": ["mongoose.Schema.Types.ObjectId"]
+          },
+          "avatar": {
+            "type": "mongoose.Schema.Types.ObjectId"
+          }
+        },
+        "securitySchemes": {
+          "auth-token": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
           }
         },
         "example":{
@@ -923,10 +946,12 @@
         ],
         "properties": {
           "owner": {
-            "type": "Schema.Types.ObjectId"
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
           },
           "organization": {
-            "type": "Schema.Types.ObjectId"
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/organization"
           },
           "title": {
             "type": "string"    
@@ -943,15 +968,16 @@
           "dateExpired": {
             "type": "Date"
           },
-          "volunteers": {
+          "volunteers": [{
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/volunteer"  
+          }],
+          "categories": [{
+            "type": "Schema.Types.ObjectId"   
+          }],
+          "comments": [{
             "type": "Schema.Types.ObjectId"    
-          },
-          "categories": {
-            "type": "Schema.Types.ObjectId"    
-          },
-          "comments": {
-            "type": "Schema.Types.ObjectId"    
-          },
+          }],
           "volunteersNeeded": {
             "type": "number"    
           },
@@ -960,6 +986,9 @@
           },
           "isSucceeded": {
             "type": "Boolean"    
+          },
+          "picture": {
+            "type": "Schema.Types.ObjectId"    
           }
         },
         "example":{
@@ -981,20 +1010,50 @@
           "description"
         ],
         "properties": {
+          "user": {
+            "type": "mongoose.Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
+          },
           "firstName": {
             "type": "string"
           },
           "lastName": {
             "type": "string"
           },
+          "categories": [{
+            "type": "mongoose.Schema.Types.ObjectId"   
+          }],
           "description": {
             "type": "string" 
-          }   
+          },
+          "shortDescription": {
+            "type": "string" 
+          },
+          "comments": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "events": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "avatar": {
+            "type": "mongoose.Schema.Types.ObjectId"    
+          },
+          "picture": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "rate": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "averageRate": {
+            "type": "number"    
+          }
         },
         "example":{
-          "firstName": "Tomasz",
-          "lastName": "Lipski",
-          "description": "Mam 16 lat"  
+          "firstName": "",
+          "lastName": "",
+          "catgeories":"Excel",
+          "description": "Bardzo dobrze sobię radzę z excelem. Chętnie pomogę",
+          "shortDescription":"Bardzo dobrze sobię radzę z excelem. Chętnie pomogę"
         }
       },
       "volunteers": {
@@ -1016,7 +1075,17 @@
           },
           "krsNumber": {
             "type": "string" 
-          }   
+          },
+          "events": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "picture": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "owner": {
+            "type": "mongoose.Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
+          }
         },
         "example":{
           "name": "Schronisko dla zwierząt PRZYJAZNY DOM",
