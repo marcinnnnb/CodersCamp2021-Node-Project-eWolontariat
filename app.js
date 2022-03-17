@@ -49,4 +49,10 @@ app.use('/category', categoryRouter, cors());
 app.use('/picture', pictureRouter, cors());
 app.use('/organization', Organization, cors());
 
+app.use(
+  '/',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
+
 module.exports = app;

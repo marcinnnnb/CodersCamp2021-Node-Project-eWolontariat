@@ -23,6 +23,10 @@
       {
         "name": "Volunteer",
         "description": "API dla Volunteer"
+      },
+      {
+        "name": "Organization",
+        "description": "API dla Organization"
       }
     ],
     "schemes": [
@@ -325,6 +329,98 @@
             }
           }
         }
+      },
+      "/organization": {
+        "post": {
+          "tags": [
+            "Organization"
+          ],
+          "summary": "Create new organization in system",
+          "parameters": [
+            {
+              "name": "organization",
+              "in": "body",
+              "description": "Organization that we want to create",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New organization was created",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Organization"
+          ],
+          "summary": "Get all organizations",
+          "responses": {
+            "200": {
+              "description": "Get all organizations",
+              "schema": {
+                "$ref": "#/definitions/organizations"
+              }
+            }
+          }
+        }
+      },
+      "/organization/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of organization",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single organization",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "parameters": [
+            {
+              "name": "organization",
+              "in": "body",
+              "description": "Organization with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Organization is updated",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          }
+        }
       }
     },
     "definitions": {
@@ -491,6 +587,33 @@
       "volunteers": {
         "type": "array",
         "$ref": "#/definitions/volunteer"
+      },
+      "organization": {
+        "required": [
+          "name",
+          "description",
+          "krsNumber"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "krsNumber": {
+            "type": "string" 
+          }   
+        },
+        "example":{
+          "name": "Schronisko dla zwierząt PRZYJAZNY DOM",
+          "description": "Wyprowadzanie psów",
+          "krsNumber": "002258634KLP"  
+        }
+      },
+      "organizations": {
+        "type": "array",
+        "$ref": "#/definitions/organization"
       }
     }
   }
