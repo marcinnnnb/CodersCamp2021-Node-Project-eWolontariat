@@ -1,4 +1,4 @@
-const { db } = require("./Models/categoriesModel");
+const { db } = require("./models/categoriesModel");
 
 
 exports.dataCategories= function(){

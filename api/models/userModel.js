@@ -8,14 +8,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         min:3,
         max:20,
-        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{2,50}$/, 'Pole imię musi zawierać tylko litery']
+        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/, 'Pole imię musi zawierać tylko litery']
     },
     lastName:{
         type: String,
         required: true,
         min:3,
         max:20,
-        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{2,50}$/, 'Pole imię musi zawierać tylko litery']
+        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/, 'Pole imię musi zawierać tylko litery']
     },
     login:{
         type: String,
@@ -46,7 +46,11 @@ const userSchema = new mongoose.Schema({
     events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Event"
-    }]
+    }],
+    avatar: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Picture"
+    }
 })
 
 module.exports = mongoose.models.User || mongoose.model('User', userSchema)
@@ -77,7 +81,9 @@ const updateValidation = (data) =>{
         lastName: Joi.string().min(3).max(20).regex(/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/),
         login: Joi.string().min(4).max(20).regex(/^[0-9a-zA-Z]{4,20}$/),
         email: Joi.string().email(),
-        password: Joi.string().min(8).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{8,}$/)
+        password: Joi.string().min(8).regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z<>!@#$%^&*?_=+-]{8,}$/),
+        avatar: Joi.string(),
+        picture: Joi.array()
     })
     return schema.validate(data)
 }

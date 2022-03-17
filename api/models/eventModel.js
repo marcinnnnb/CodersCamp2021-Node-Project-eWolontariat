@@ -45,7 +45,8 @@ const eventSchema = new mongoose.Schema({
     }],
     categories: [{
         type: Schema.Types.ObjectId,
-        ref: "Category"
+        ref: "Category",
+        required: true
     }], 
     comments: [{
         type: Schema.Types.ObjectId,
