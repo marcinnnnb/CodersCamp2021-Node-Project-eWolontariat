@@ -45,12 +45,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.json());
-app.use('/volunteer', VolunteerRoutes, cors());
-app.use('/comments', CommentRoutes, cors());
+app.use('/volunteer', VolunteerRoutes, cors(corsOptions));
+app.use('/comments', CommentRoutes, cors(corsOptions));
 app.use('/user', userRouter, cors(corsOptions));
-app.use('/event', eventRouter, cors());
-app.use('/category', categoryRouter, cors());
-app.use('/picture', pictureRouter, cors());
-app.use('/organization', Organization, cors());
+app.use('/event', eventRouter, cors(corsOptions));
+app.use('/category', categoryRouter, cors(corsOptions));
+app.use('/picture', pictureRouter, cors(corsOptions));
+app.use('/organization', Organization, cors(corsOptions));
 
 module.exports = app;
