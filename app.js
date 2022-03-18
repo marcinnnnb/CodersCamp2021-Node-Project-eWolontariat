@@ -23,7 +23,6 @@ const corsOptions = {
   allowedHeaders: ["*","Accept","Accept-Language","Content-Language",'Auth-Token', "x-requested-with", "authorization", "content-type"],
   origin: '*'
 };
-
 app.use('/',cors(corsOptions));
 dotenv.config();
 
