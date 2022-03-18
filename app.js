@@ -20,7 +20,8 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   exposedHeaders: ['Auth-Token'],
-  allowedHeaders: ["Accept","Accept-Language","Content-Language","access-control-allow-origin",'Auth-Token', "x-requested-with", "authorization", "content-type"]
+  allowedHeaders: ["Accept","Accept-Language","Content-Language",'Auth-Token', "x-requested-with", "authorization", "content-type"],
+  origin: '*'
 };
 
 app.use(cors(corsOptions));
