@@ -67,15 +67,8 @@ exports.allVolunteers = async (req, res, next) => {
     
   try {
     const updatedVolunteer = await Volunteer
-      .findOneAndUpdate(
-        {_id: req.params.id},
-        {
-         categories: req.body.categories,
-         description: req.body.description,
-         shortDescription: req.body.shortDescription,
-         avatar: req.body.avatar
-        },
-        { new: true }
+      .findByIdAndUpdate(
+         req.params.id,req.body,{ new: true }
       )
       .exec().catch(error => {
         console.log(error);
