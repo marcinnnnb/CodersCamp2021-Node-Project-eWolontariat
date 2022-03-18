@@ -24,7 +24,7 @@ const corsOptions = {
   origin: '*'
 };
 
-app.use(cors(corsOptions));
+app.use('/',cors(corsOptions));
 dotenv.config();
 
 mongoose
