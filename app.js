@@ -19,7 +19,8 @@ app.use((req, res, next) => {
 });
 
 const corsOptions = {
-  exposedHeaders: ['Auth-Token']
+  exposedHeaders: ['Auth-Token'],
+  allowedHeaders: ['Auth-Token']
 };
 
 app.use(cors(corsOptions));
