@@ -36,9 +36,6 @@ exports.registration = async (req,res) => {
         res.status(400).json({message:error.message})
       }
       }
-    
-
-
 
 exports.logging = async (req,res) => {
 
