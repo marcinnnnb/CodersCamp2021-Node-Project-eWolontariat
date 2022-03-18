@@ -5,7 +5,7 @@ exports.loggedUser = async (req, res, next) => {
 
     const token = req.header('auth-token');
 
-    if (!token) return res.status(401).send({message:'Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika'});
+    if (!token) return res.status(401).send('Odmowa dostępu. Operacja możliwa tylko dla zalogowanego użytkownika');
 
     try {
         jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded)=> {
@@ -30,7 +30,7 @@ exports.loggedUser = async (req, res, next) => {
         
             if(req.user._id !== req.params.id) {
                 res.status(403);
-                throw new Error('Odmowa dostępu. Bak możliwości zmiany danych dla tego użytkownika');
+                throw new Error('Odmowa dostępu. Brak możliwości zmiany danych dla tego użytkownika');
             };
         };
 

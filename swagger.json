@@ -1,0 +1,1108 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "e-Wolontariat API",
+      "description": "e-Wolontariat API - aplikacja pomagająca w znalezieniu wolontariusza.",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "User",
+        "description": "API dla User"
+      },
+      {
+        "name": "Event",
+        "description": "API dla Event"
+      },
+      {
+        "name": "Volunteer",
+        "description": "API dla Volunteer"
+      },
+      {
+        "name": "Organization",
+        "description": "API dla Organization"
+      },
+      {
+        "name": "Picture",
+        "description": "API dla Picture"
+      },
+      {
+        "name": "Category",
+        "description": "API dla Category"
+      },
+      {
+        "name": "Comment",
+        "description": "API dla Comment"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/user/register": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Create new user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to create",
+              "schema": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user was created"
+            }
+          }
+        } 
+      },
+      "/user/login": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Log in user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to log in",
+              "schema": {
+                "$ref": "#/definitions/login"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "User was logged!"
+            }
+          }
+        } 
+      },
+      "/user/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of user",
+            "type": "string"
+          }
+        ],
+        "patch": {
+          "summary": "Update user with given ID",
+          "tags": [
+            "User"
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/updateUser"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User was updated"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get user with given ID",
+          "tags": [
+            "User"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single user"
+            }
+          }
+        }
+      },
+      "/user/login/{login}": {
+        "get": {
+          "summary": "Get user with given login",
+          "tags": [
+            "User"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get user with given login"
+            }
+          }
+        }
+      },
+      "/event": {
+        "post": {
+          "tags": [
+            "Event"
+          ],
+          "summary": "Create new event in system",
+          "parameters": [
+            {
+              "name": "event",
+              "in": "body",
+              "description": "Event that we want to create",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New event was created"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Event"
+          ],
+          "summary": "Get all events",
+          "responses": {
+            "200": {
+              "description": "Get all events"
+            }
+          }
+        } 
+      },
+      "/event/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "put": {
+          "summary": "Update event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "parameters": [
+            {
+              "name": "event",
+              "in": "body",
+              "description": "Event with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/event"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Event is updated"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single event"
+            }
+          }
+        }
+      },
+      "/event/{id}/volunteers": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get volunteers of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get volunteers of event with given ID"
+            }
+          }
+        }
+      },
+      "/event/{id}/comments": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of event",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get comments of event with given ID"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "parameters": [
+            {
+              "name": "event",
+              "in": "body",
+              "description": "Create comments of event with given ID"
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of event was created"
+            }
+          }
+        }
+      },
+      "/event/{id}/comments/{commentId}": {
+        "delete": {
+          "summary": "Delete comments of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "parameters": [
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of event was deleted"
+            }
+          }
+        }
+      },
+      "/event/{id}/count/{isSucceeded}": {
+        "get": {
+          "summary": "Get count of event with given ID",
+          "tags": [
+            "Event"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get count of event with given ID"
+            }
+          }
+        }
+      },
+      "/volunteer": {
+        "post": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Create new volunteer in system",
+          "parameters": [
+            {
+              "name": "volunteer",
+              "in": "body",
+              "description": "Volunteer that we want to create",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New volunteer was created"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Get all volunteers",
+          "responses": {
+            "200": {
+              "description": "Get all volunteers"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single volunteer"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Volunteer with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/volunteer"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Volunteer is updated"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/comments": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get comments of volunteer"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Create comments of volunteer with given ID"
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Volunteer is updated"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/comments/{commentId}": {
+        "delete": {
+          "summary": "Delete comments of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comments of volunteer was deleted"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/rate": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "post": {
+          "summary": "Create rate of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "volunteeer",
+              "in": "body",
+              "description": "Create rate of volunteer with given ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Rate of volunteer was created"
+            }
+          }
+        }
+      },
+      "/volunteer/{id}/events": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of volunteer",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get events of volunteer with given ID",
+          "tags": [
+            "Volunteer"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get events of volunteer"
+            }
+          }
+        }
+      },
+      "/volunteer/all/count":{
+        "get": {
+          "tags": [
+            "Volunteer"
+          ],
+          "summary": "Get all volunteers and count",
+          "responses": {
+            "200": {
+              "description": "Get all volunteers and count"
+            }
+          }
+        }
+      },
+      "/organization": {
+        "post": {
+          "tags": [
+            "Organization"
+          ],
+          "summary": "Create new organization in system",
+          "parameters": [
+            {
+              "name": "organization",
+              "in": "body",
+              "description": "Organization that we want to create",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New organization was created"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Organization"
+          ],
+          "summary": "Get all organizations",
+          "responses": {
+            "200": {
+              "description": "Get all organizations"
+            }
+          }
+        }
+      },
+      "/organization/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of organization",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single organization"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "parameters": [
+            {
+              "name": "organization",
+              "in": "body",
+              "description": "Organization with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/organization"
+              }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Organization is updated"
+            }
+          }
+        }
+      },
+      "/organization/{id}/events": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of organization",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get events of organization with given ID",
+          "tags": [
+            "Organization"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get events of organization"
+            }
+          }
+        }
+      },
+      "/picture": {
+        "post": {
+          "tags": [
+            "Picture"
+          ],
+          "summary": "Add picture to the profile",
+          "parameters": [
+            {
+              "name": "picture",
+              "in": "body",
+              "description": "Add picture to the profile"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Picture was added"
+            }
+          }
+        }
+      },
+      "/picture/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of picture",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get picture with given ID",
+          "tags": [
+            "Picture"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single picture"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete picture with given ID",
+          "tags": [
+            "Picture"
+          ],
+          "responses": {
+            "200": {
+              "description": "Picture was deleted"
+            }
+          }
+        }
+      },
+      "/category": {
+        "post": {
+          "tags": [
+            "Category"
+          ],
+          "summary": "Create new category in system",
+          "parameters": [
+            {
+              "name": "category",
+              "in": "body",
+              "description": "Category that we want to create"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New category was created"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Category"
+          ],
+          "summary": "Get all categories",
+          "responses": {
+            "200": {
+              "description": "Get all categories"
+            }
+          }
+        } 
+      },
+      "/category/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of category",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get category with given ID",
+          "tags": [
+            "Category"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single category"
+            }
+          }
+        }
+      },
+      "/comment/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of comment",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get comment with given ID",
+          "tags": [
+            "Comment"
+          ],
+          "responses": {
+            "200": {
+              "description": "Get single Comment"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update comment with given ID",
+          "tags": [
+            "Comment"
+          ],
+          "parameters": [
+            {
+              "name": "comment",
+              "in": "body",
+              "description": "Comment with new values of properties"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comment was updated"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "user": {
+        "required": [
+          "_id",
+          "firstName",
+          "lastName",
+          "login",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "_id": {
+            "type": "mongoose.Types.ObjectId"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"    
+          },
+          "email": {
+            "type": "string"    
+          },
+          "password": {
+            "type": "string"    
+          },
+          "picture": {
+            "type": ["mongoose.Schema.Types.ObjectId"]
+          },
+          "events": {
+            "type": ["mongoose.Schema.Types.ObjectId"]
+          },
+          "avatar": {
+            "type": "mongoose.Schema.Types.ObjectId"
+          }
+        },
+        "example":{
+            "firstName": "Tomasz",
+            "lastName": "Lipski",
+            "login": "Tomek258",
+            "email": "tomaszlipski12@gmail.com",   
+            "password": "Tomasz_123"   
+          }
+      },
+      "login": {
+        "required": [
+          "login",
+          "password"
+        ],
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example":{
+          "login": "Tomek258",
+          "password": "Tomasz_123"   
+        }
+      },
+      "updateUser": {
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"    
+          },
+          "email": {
+            "type": "string"    
+          },
+          "password": {
+            "type": "string"    
+          }
+        },
+        "example":{
+          "firstName": "Tomasz",
+          "lastName": "Lipski",
+          "login": "Tomek258",
+          "email": "tomaszlipski12@gmail.com",   
+          "password": "Tomasz_123"   
+        }
+      },
+      "event": {
+        "required": [
+          "owner",
+          "title",
+          "description",
+          "volunteersNeeded"
+        ],
+        "properties": {
+          "owner": {
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
+          },
+          "organization": {
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/organization"
+          },
+          "title": {
+            "type": "string"    
+          },
+          "description": {
+            "type": "string"    
+          },
+          "shortDescription": {
+            "type": "string"    
+          },
+          "dateStarted": {
+            "type": "Date"
+          },
+          "dateExpired": {
+            "type": "Date"
+          },
+          "volunteers": [{
+            "type": "Schema.Types.ObjectId",
+            "$ref":"#/definitions/volunteer"  
+          }],
+          "categories": [{
+            "type": "Schema.Types.ObjectId"   
+          }],
+          "comments": [{
+            "type": "Schema.Types.ObjectId"    
+          }],
+          "volunteersNeeded": {
+            "type": "number"    
+          },
+          "isFinished": {
+            "type": "Boolean"    
+          },
+          "isSucceeded": {
+            "type": "Boolean"    
+          },
+          "picture": {
+            "type": "Schema.Types.ObjectId"    
+          }
+        },
+        "example":{
+          "title": "Szukam korepetytora",
+          "description": "Potrzebuję pomocy przy przerobieniu materiału do matury rozszerzonej z matematyki.",
+          "dateStarted": "2022-03-03T18:05:48.095Z",
+          "categories": ["621f854ecdea28d97a280afd"],
+          "volunteersNeeded": 1
+        }
+      },
+      "events": {
+        "type": "array",
+        "$ref": "#/definitions/event"
+      },
+      "volunteer": {
+        "required": [
+          "firstName",
+          "lastName",
+          "description"
+        ],
+        "properties": {
+          "user": {
+            "type": "mongoose.Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "categories": [{
+            "type": "mongoose.Schema.Types.ObjectId"   
+          }],
+          "description": {
+            "type": "string" 
+          },
+          "shortDescription": {
+            "type": "string" 
+          },
+          "comments": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "events": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "avatar": {
+            "type": "mongoose.Schema.Types.ObjectId"    
+          },
+          "picture": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "rate": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "averageRate": {
+            "type": "number"    
+          }
+        },
+        "example":{
+          "firstName": "",
+          "lastName": "",
+          "catgeories":"Excel",
+          "description": "Bardzo dobrze sobię radzę z excelem. Chętnie pomogę",
+          "shortDescription":"Bardzo dobrze sobię radzę z excelem. Chętnie pomogę"
+        }
+      },
+      "volunteers": {
+        "type": "array",
+        "$ref": "#/definitions/volunteer"
+      },
+      "organization": {
+        "required": [
+          "name",
+          "description",
+          "krsNumber"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "krsNumber": {
+            "type": "string" 
+          },
+          "events": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "picture": [{
+            "type": "mongoose.Schema.Types.ObjectId"    
+          }],
+          "owner": {
+            "type": "mongoose.Schema.Types.ObjectId",
+            "$ref":"#/definitions/user"
+          }
+        },
+        "example":{
+          "name": "Schronisko dla zwierząt PRZYJAZNY DOM",
+          "description": "Wyprowadzanie psów",
+          "krsNumber": "002258634KLP"  
+        }
+      },
+      "organizations": {
+        "type": "array",
+        "$ref": "#/definitions/organization"
+      }
+    }
+  }

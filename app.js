@@ -1,5 +1,7 @@
 const helmet = require('helmet');
 const express = require('express');
+const swaggerUi = require('swagger-ui-express')
+swaggerDocument = require('./swagger.json')
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -53,5 +55,11 @@ app.use('/event', eventRouter, cors(corsOptions));
 app.use('/category', categoryRouter, cors(corsOptions));
 app.use('/picture', pictureRouter, cors(corsOptions));
 app.use('/organization', Organization, cors(corsOptions));
+
+app.use(
+  '/',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 module.exports = app;
