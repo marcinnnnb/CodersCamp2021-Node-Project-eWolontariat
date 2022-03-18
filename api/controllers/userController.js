@@ -10,11 +10,11 @@ exports.registration = async (req,res) => {
      if(error) return res.status(400).send({message:error.message});
  
      const emailExist = await User.findOne({email: req.body.email});
-     if(emailExist) return res.status(400).send({message:'Dane logowania niepoprawne.'})
+     if(emailExist) return res.status(400).send({message:'Podany login/hasło już istnieje.'})
 
 
      const loginExist = await User.findOne({login: req.body.login});
-     if(loginExist) return res.status(400).send({message:'Dane logowania niepoprawne.'})
+     if(loginExist) return res.status(400).send({message:'Podany login/hasło już istnieje.'})
 
  
      const salt = await bcrypt.genSalt(10);
@@ -43,7 +43,7 @@ exports.registration = async (req,res) => {
 exports.logging = async (req,res) => {
 
     const {error} = loginValidation(req.body)
-     if(error) return res.status(400).send(error.details[0].message);
+     if(error) return res.status(400).send('Podane dane nie spełniają kryterium.');
 
     const user = await User.findOne({login: req.body.login});
      if(!user) return res.status(400).send('Podany login nie istnieje.')
@@ -74,7 +74,7 @@ exports.updatedUser = async (req, res) => {
 
     const {error} = updateValidation(req.body);   
 
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).send('Dane logowania są niepoprawane');
 
     try {
       const salt = await bcrypt.genSalt(10);
