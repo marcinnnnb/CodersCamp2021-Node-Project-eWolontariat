@@ -79,7 +79,7 @@ exports.updatedUser = async (req, res) => {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      
+
       const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec();
           console.log(updatedUser)
     
@@ -96,7 +96,7 @@ exports.updatedUser = async (req, res) => {
 exports.getLoggedInUser = async (req, res) => {
   let user;
   try{
-    user = await User.findOne({login: req.body.login}).select('-password').catch(error=>{
+    user = await User.find().where('login').equals(req.params.login).select('-password').catch(error=>{
       throw new Error('There is no user with this login');
     });
   } catch (error) {
