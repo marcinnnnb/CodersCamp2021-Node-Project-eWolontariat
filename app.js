@@ -14,8 +14,7 @@ const Organization = require('./api/routes/organizationRoutes');
 const cors = require('cors');
 
 const corsOptions = {
-  exposedHeaders: 'Auth-Token',
-  allowedHeaders: 'Auth-Token'
+  exposedHeaders: ['Auth-Token']
 };
 
 app.use((req, res, next) => {
