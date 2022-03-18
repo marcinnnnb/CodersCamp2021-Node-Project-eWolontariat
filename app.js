@@ -17,7 +17,14 @@ app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
   next();
 });
-app.use(cors());
+
+const corsOptions = {
+  exposedHeaders: ['Auth-Token'],
+  allowedHeaders: ["Accept","Accept-Language","Content-Language",'Auth-Token', "x-requested-with", "authorization", "content-type"],
+  origin: '*'
+};
+
+app.use('/',cors(corsOptions));
 dotenv.config();
 
 mongoose
@@ -39,12 +46,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.json());
-app.use('/volunteer', VolunteerRoutes, cors());
-app.use('/comments', CommentRoutes, cors());
-app.use('/user', userRouter, cors());
-app.use('/event', eventRouter, cors());
-app.use('/category', categoryRouter, cors());
-app.use('/picture', pictureRouter, cors());
-app.use('/organization', Organization, cors());
+app.use('/volunteer', VolunteerRoutes, cors(corsOptions));
+app.use('/comments', CommentRoutes, cors(corsOptions));
+app.use('/user', userRouter, cors(corsOptions));
+app.use('/event', eventRouter, cors(corsOptions));
+app.use('/category', categoryRouter, cors(corsOptions));
+app.use('/picture', pictureRouter, cors(corsOptions));
+app.use('/organization', Organization, cors(corsOptions));
 
 module.exports = app;
