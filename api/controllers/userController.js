@@ -96,7 +96,7 @@ exports.updatedUser = async (req, res) => {
 exports.getLoggedInUser = async (req, res) => {
   let user;
   try{
-    user = await User.find().where('login').equals(req.params.login).select('-password').catch(error=>{
+    user = await User.findOne().where('login').equals(req.params.login).select('-password').catch(error=>{
       throw new Error('There is no user with this login');
     });
   } catch (error) {
