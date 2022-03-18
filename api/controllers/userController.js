@@ -7,14 +7,14 @@ const mongoose = require('mongoose')
 exports.registration = async (req,res) => {
 
     const {error} = registerValidation(req.body)
-     if(error) return res.status(400).send({message:error.message});
+     if(error) return res.status(400).send( 'Podane dane nie spełniają kryterium');
  
      const emailExist = await User.findOne({email: req.body.email});
-     if(emailExist) return res.status(400).send({message:'Podany login/hasło już istnieje.'})
+     if(emailExist) return res.status(400).send('Podany login/hasło już istnieje')
 
 
      const loginExist = await User.findOne({login: req.body.login});
-     if(loginExist) return res.status(400).send({message:'Podany login/hasło już istnieje.'})
+     if(loginExist) return res.status(400).send('Podany login/hasło już istnieje')
 
  
      const salt = await bcrypt.genSalt(10);
@@ -30,8 +30,7 @@ exports.registration = async (req,res) => {
         });
         
       const newUser=await user.save()
-      console.log(newUser)
-      res.status(201).send('Rejestracja przebiegła pomyślnie.');
+      res.status(201).send('Rejestracja przebiegła pomyślnie');
       } catch(error) {
         res.status(400).json({message:error.message})
       }
@@ -52,8 +51,7 @@ exports.logging = async (req,res) => {
     if(!validPass) return res.status(400).send('Podany login/hasło nie istnieje.')
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-    res.header('auth-token', token).send('Jesteś zalogowany!')
-
+    res.header('auth-token', token).header('_id',user._id).send('Jesteś zalogowany!')
 }
 
 exports.getUser = async (req, res) => {
@@ -63,10 +61,10 @@ exports.getUser = async (req, res) => {
       if (!user)
         return res
           .status(404)
-          .send( 'Podany użytkownik nie istnieje.');
+          .send('Podany użytkownik nie istnieje');
       res.status(200).send(user);
     } else {
-      res.status(400).send('Podano nieprawidłowy numer id');
+      res.status(400).send('Podano nieprawidłowy numer ID');
     }
   };
 
@@ -74,26 +72,23 @@ exports.updatedUser = async (req, res) => {
 
     const {error} = updateValidation(req.body);   
 
-    if(error) return res.status(400).send('Podane dane nie spełniają kryterium.');
+    if(error) return res.status(400).send('Podane dane nie spełniają kryterium');
 
     try {
       if(req.body.password){
-        const updatedPassword = await User.findByIdAndUpdate(req.params.id, req.body.password, {new: true}).exec();
-        console.log(updatedPassword)
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hashedPassword
       }
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
       
-      const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).select('-password').exec();
-          console.log(updatedUser)
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true}).exec();
     
         if (!updatedUser) {
           return res.status(400).send('Nie ma takiego użytkownika');
         }
         res.status(200).send('Zaktualizowano dane');
       } catch (e) {
-        console.error(e);
-        res.status(400).send('Error');
+        res.status(400).send({message : e.message});
       }
     }
 

@@ -72,10 +72,7 @@
           ],
           "responses": {
             "200": {
-              "description": "New user was created",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
+              "description": "New user was created"
             }
           }
         } 
@@ -85,12 +82,12 @@
           "tags": [
             "User"
           ],
-          "summary": "Login user in system",
+          "summary": "Log in user in system",
           "parameters": [
             {
               "name": "user",
               "in": "body",
-              "description": "User that we want to login",
+              "description": "User that we want to log in",
               "schema": {
                 "$ref": "#/definitions/login"
               }
@@ -101,10 +98,7 @@
           ],
           "responses": {
             "200": {
-              "description": "User was logged!",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
+              "description": "User was logged!"
             }
           }
         } 
@@ -143,10 +137,7 @@
           ],
           "responses": {
             "200": {
-              "description": "User is updated",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
+              "description": "User was updated"
             }
           }
         },
@@ -157,10 +148,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get single user",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
+              "description": "Get single user"
             }
           }
         }
@@ -173,10 +161,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get user with given login",
-              "schema": {
-                "$ref": "#/definitions/user"
-              }
+              "description": "Get user with given login"
             }
           }
         }
@@ -209,10 +194,7 @@
           ],
           "responses": {
             "200": {
-              "description": "New event was created",
-              "schema": {
-                "$ref": "#/definitions/event"
-              }
+              "description": "New event was created"
             }
           }
         },
@@ -223,10 +205,7 @@
           "summary": "Get all events",
           "responses": {
             "200": {
-              "description": "Get all events",
-              "schema": {
-                "$ref": "#/definitions/events"
-              }
+              "description": "Get all events"
             }
           }
         } 
@@ -265,10 +244,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Event is updated",
-              "schema": {
-                "$ref": "#/definitions/event"
-              }
+              "description": "Event is updated"
             }
           }
         },
@@ -279,10 +255,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get single event",
-              "schema": {
-                "$ref": "#/definitions/event"
-              }
+              "description": "Get single event"
             }
           }
         }
@@ -419,10 +392,7 @@
           ],
           "responses": {
             "200": {
-              "description": "New volunteer was created",
-              "schema": {
-                "$ref": "#/definitions/volunteer"
-              }
+              "description": "New volunteer was created"
             }
           }
         },
@@ -433,10 +403,7 @@
           "summary": "Get all volunteers",
           "responses": {
             "200": {
-              "description": "Get all volunteers",
-              "schema": {
-                "$ref": "#/definitions/volunteers"
-              }
+              "description": "Get all volunteers"
             }
           }
         }
@@ -458,10 +425,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get single volunteer",
-              "schema": {
-                "$ref": "#/definitions/volunteer"
-              }
+              "description": "Get single volunteer"
             }
           }
         },
@@ -489,10 +453,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Volunteer is updated",
-              "schema": {
-                "$ref": "#/definitions/volunteer"
-              }
+              "description": "Volunteer is updated"
             }
           }
         }
@@ -539,10 +500,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Volunteer is updated",
-              "schema": {
-                "$ref": "#/definitions/volunteer"
-              }
+              "description": "Volunteer is updated"
             }
           }
         }
@@ -654,10 +612,7 @@
           ],
           "responses": {
             "200": {
-              "description": "New organization was created",
-              "schema": {
-                "$ref": "#/definitions/organization"
-              }
+              "description": "New organization was created"
             }
           }
         },
@@ -668,10 +623,7 @@
           "summary": "Get all organizations",
           "responses": {
             "200": {
-              "description": "Get all organizations",
-              "schema": {
-                "$ref": "#/definitions/organizations"
-              }
+              "description": "Get all organizations"
             }
           }
         }
@@ -693,10 +645,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get single organization",
-              "schema": {
-                "$ref": "#/definitions/organization"
-              }
+              "description": "Get single organization"
             }
           }
         },
@@ -724,10 +673,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Organization is updated",
-              "schema": {
-                "$ref": "#/definitions/organization"
-              }
+              "description": "Organization is updated"
             }
           }
         }
@@ -749,10 +695,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Get events of organization",
-              "schema": {
-                "$ref": "#/definitions/events"
-              }
+              "description": "Get events of organization"
             }
           }
         }
