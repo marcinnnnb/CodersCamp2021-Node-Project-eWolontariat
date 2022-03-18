@@ -17,10 +17,12 @@ app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
   next();
 });
-app.use(cors());
+
 const corsOptions = {
   exposedHeaders: ['Auth-Token']
 };
+
+app.use(cors(corsOptions));
 dotenv.config();
 
 mongoose
