@@ -13,15 +13,14 @@ const CommentRoutes = require('./api/routes/commentsRoutes');
 const Organization = require('./api/routes/organizationRoutes');
 const cors = require('cors');
 
-const corsOptions = {
-  exposedHeaders: ['Auth-Token']
-};
-
 app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
   next();
 });
 app.use(cors());
+const corsOptions = {
+  exposedHeaders: ['Auth-Token']
+};
 dotenv.config();
 
 mongoose
