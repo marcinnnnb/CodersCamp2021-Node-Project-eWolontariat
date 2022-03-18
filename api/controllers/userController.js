@@ -49,7 +49,7 @@ exports.logging = async (req,res) => {
      if(!user) return res.status(400).send('Podany login/hasło nie istnieje.')
 
     const validPass = await bcrypt.compare(req.body.password, user.password)
-    if(!validPass) return res.status(400).send('Podane login/hasło nie istnieje.')
+    if(!validPass) return res.status(400).send('Podany login/hasło nie istnieje.')
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
     res.header('auth-token', token).send('Jesteś zalogowany!')
@@ -74,7 +74,7 @@ exports.updatedUser = async (req, res) => {
 
     const {error} = updateValidation(req.body);   
 
-    if(error) return res.status(400).send('Dane logowania są niepoprawane');
+    if(error) return res.status(400).send('Podane dane nie spełniają kryterium.');
 
     try {
       if(req.body.password){

@@ -120,9 +120,6 @@
           }
         ],
         "patch": {
-          "security": [{
-            "auth-token": []
-          }],
           "summary": "Update user with given ID",
           "tags": [
             "User"
@@ -135,6 +132,13 @@
               "schema": {
                 "$ref": "#/definitions/updateUser"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -191,6 +195,13 @@
               "schema": {
                 "$ref": "#/definitions/event"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "produces": [
@@ -243,6 +254,13 @@
               "schema": {
                 "$ref": "#/definitions/event"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -322,6 +340,13 @@
               "name": "event",
               "in": "body",
               "description": "Create comments of event with given ID"
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -336,6 +361,15 @@
           "summary": "Delete comments of event with given ID",
           "tags": [
             "Event"
+          ],
+          "parameters": [
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
           ],
           "responses": {
             "200": {
@@ -371,6 +405,13 @@
               "schema": {
                 "$ref": "#/definitions/volunteer"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "produces": [
@@ -437,6 +478,13 @@
               "schema": {
                 "$ref": "#/definitions/volunteer"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -480,6 +528,13 @@
               "name": "volunteeer",
               "in": "body",
               "description": "Create comments of volunteer with given ID"
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -497,6 +552,15 @@
           "summary": "Delete comments of volunteer with given ID",
           "tags": [
             "Volunteer"
+          ],
+          "parameters": [
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
+            }
           ],
           "responses": {
             "200": {
@@ -649,6 +713,13 @@
               "schema": {
                 "$ref": "#/definitions/organization"
               }
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "responses": {
@@ -876,13 +947,6 @@
           },
           "avatar": {
             "type": "mongoose.Schema.Types.ObjectId"
-          }
-        },
-        "securitySchemes": {
-          "auth-token": {
-            "type": "http",
-            "scheme": "bearer",
-            "bearerFormat": "JWT"
           }
         },
         "example":{
