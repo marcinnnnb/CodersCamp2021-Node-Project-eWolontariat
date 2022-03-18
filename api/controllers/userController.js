@@ -35,9 +35,6 @@ exports.registration = async (req,res) => {
         res.status(400).json({message:error.message})
       }
       }
-    
-
-
 
 exports.logging = async (req,res) => {
 
@@ -95,7 +92,7 @@ exports.updatedUser = async (req, res) => {
 exports.getLoggedInUser = async (req, res) => {
   let user;
   try{
-    user = await User.findOne({login: req.body.login}).select('-password').catch(error=>{
+    user = await User.findOne().where('login').equals(req.params.login).select('-password').catch(error=>{
       throw new Error('There is no user with this login');
     });
   } catch (error) {
