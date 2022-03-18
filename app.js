@@ -13,6 +13,10 @@ const CommentRoutes = require('./api/routes/commentsRoutes');
 const Organization = require('./api/routes/organizationRoutes');
 const cors = require('cors');
 
+const corsOptions = {
+  exposedHeaders: 'Auth-Token',
+};
+
 app.use((req, res, next) => {
   const error = new Error('Strona o podanym adresie nie istnieje');
   next();
@@ -41,7 +45,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use('/volunteer', VolunteerRoutes, cors());
 app.use('/comments', CommentRoutes, cors());
-app.use('/user', userRouter, cors());
+app.use('/user', userRouter, cors(corsOptions));
 app.use('/event', eventRouter, cors());
 app.use('/category', categoryRouter, cors());
 app.use('/picture', pictureRouter, cors());
