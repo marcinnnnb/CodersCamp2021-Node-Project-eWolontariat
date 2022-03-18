@@ -8,14 +8,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         min:3,
         max:20,
-        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{2,50}$/, 'Pole imię musi zawierać tylko litery']
+        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/, 'Pole imię musi zawierać tylko litery']
     },
     lastName:{
         type: String,
         required: true,
         min:3,
         max:20,
-        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{2,50}$/, 'Pole imię musi zawierać tylko litery']
+        match: [/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$/, 'Pole imię musi zawierać tylko litery']
     },
     login:{
         type: String,
