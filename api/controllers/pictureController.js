@@ -12,7 +12,7 @@ exports.getPictureById = async (req, res) => {
     }
     
     return (
-        res.setHeader('Content-Type','image/png'),
+        res.setHeader('Content-Type','image/jpeg'),
         res.send(picture.img.data) )
 };
 
