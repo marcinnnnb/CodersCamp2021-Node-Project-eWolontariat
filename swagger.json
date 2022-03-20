@@ -321,7 +321,10 @@
             {
               "name": "event",
               "in": "body",
-              "description": "Create comments of event with given ID"
+              "description": "Create comments of event with given ID",
+              "schema": {
+                "$ref": "#/definitions/comment"
+              }
             },
             {
               "name": "auth-token",
@@ -1075,7 +1078,6 @@
       "events": {
         "type": "array",
         "$ref": "#/definitions/event"
-      }
       },
       "volunteer": {
         "required": [
@@ -1162,14 +1164,14 @@
           }
         },
         "example":{
-          "name": "Schronisko dla zwierząt PRZYJAZNY DOM",
-          "description": "Wyprowadzanie psów",
-          "krsNumber": "002258634KLP"  
+          "name": "Organizacja Pomocny",
+          "description": "Jestemy organizacja Pomocny! Naszym celem jest pomoc kazdemu, kto tylko tej pomocy potrzebuje",
+          "krsNumber": "0000123456"  
         }
       },
       "organizations": {
         "type": "array",
         "$ref": "#/definitions/organization"
       }
-      
+    }
 }
