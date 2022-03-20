@@ -9,7 +9,7 @@
         "url": "https://opensource.org/licenses/MIT"
       }
     },
-    "host": "localhost:3000",
+    "host": "whispering-oasis-16160.herokuapp.com",
     "basePath": "/",
     "tags": [
       {
@@ -42,10 +42,12 @@
       }
     ],
     "schemes": [
-      "http"
+      "https"
     ],
     "consumes": [
-      "application/json"
+      "application/json",
+      "multipart/form-data",
+      "image/png"
     ],
     "produces": [
       "application/json"
@@ -159,6 +161,13 @@
           "tags": [
             "User"
           ],
+          "parameters": [
+            {
+              "name": "login",
+              "in": "path",
+              "description": "Login of logged in user"
+            }
+            ],
           "responses": {
             "200": {
               "description": "Get user with given login"
@@ -193,7 +202,7 @@
             "application/json"
           ],
           "responses": {
-            "200": {
+            "201": {
               "description": "New event was created"
             }
           }
@@ -243,7 +252,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "201": {
               "description": "Event is updated"
             }
           }
@@ -323,7 +332,7 @@
             }
           ],
           "responses": {
-            "200": {
+            "201": {
               "description": "Comments of event was created"
             }
           }
@@ -342,6 +351,20 @@
               "required": true,
               "description": "Generated token",
               "type": "string"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of event",
+              "type": "string"
+            },
+            {
+              "name": "commentId",
+              "in": "path",
+              "required": true,
+              "description": "ID of comment",
+              "type": "string"
             }
           ],
           "responses": {
@@ -351,11 +374,19 @@
           }
         }
       },
-      "/event/{id}/count/{isSucceeded}": {
+      "/event/count/{isSucceeded}": {
         "get": {
           "summary": "Get count of event with given ID",
           "tags": [
             "Event"
+          ],
+          "parameters": [
+            {
+              "name": "isSucceeded",
+              "in": "path",
+              "description": "True for succeeded events",
+              "type": "string"
+            }
           ],
           "responses": {
             "200": {
@@ -706,19 +737,28 @@
             "Picture"
           ],
           "summary": "Add picture to the profile",
+          "consumes": "multipart/form-data",
           "parameters": [
             {
-              "name": "picture",
-              "in": "body",
-              "description": "Add picture to the profile"
+              "name": "image",
+              "in": "formData",
+              "type": "file",
+              "description": "Add new picture"
+            },
+            {
+              "name": "auth-token",
+              "in": "header",
+              "required": true,
+              "description": "Generated token",
+              "type": "string"
             }
           ],
           "produces": [
             "application/json"
           ],
           "responses": {
-            "200": {
-              "description": "Picture was added"
+            "201": {
+              "description": "Picture was added"             
             }
           }
         }
@@ -738,9 +778,22 @@
           "tags": [
             "Picture"
           ],
+          "produces": [
+            "image/png",
+            "image/jpeg",
+            "application/json"
+          ],
           "responses": {
             "200": {
-              "description": "Get single picture"
+              "description": "Get single picture",
+              "content": {
+                "image/png":{
+                  "schema": {
+                    "type": "base64",
+                    "format": "file"
+                  }
+                }
+              } 
             }
           }
         },
@@ -854,6 +907,19 @@
       }
     },
     "definitions": {
+      "comment": {
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        },
+        "example":{
+          "content": "Świetny pomysł!"  
+        }
+      },
       "user": {
         "required": [
           "_id",
@@ -1009,6 +1075,7 @@
       "events": {
         "type": "array",
         "$ref": "#/definitions/event"
+      }
       },
       "volunteer": {
         "required": [
@@ -1104,5 +1171,5 @@
         "type": "array",
         "$ref": "#/definitions/organization"
       }
-    }
-  }
+      
+}

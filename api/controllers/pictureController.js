@@ -11,7 +11,9 @@ exports.getPictureById = async (req, res) => {
         return res.status(400).send({message: error.message});
     }
     
-    return res.send(picture.img.data.toString('base64')); 
+    return (
+        res.setHeader('Content-Type','image/jpeg'),
+        res.send(picture.img.data) )
 };
 
 exports.loadPicture = async (req, res) => {
