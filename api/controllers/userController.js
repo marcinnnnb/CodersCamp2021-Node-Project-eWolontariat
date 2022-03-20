@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 exports.registration = async (req,res) => {
 
     const {error} = registerValidation(req.body)
-     if(error) return res.status(400).send( 'Podane dane nie spełniają kryterium');
+     if(error) return res.status(400).send('Podane dane nie spełniają kryterium');
  
      const emailExist = await User.findOne({email: req.body.email});
      if(emailExist) return res.status(400).send('Podany login/hasło już istnieje')
@@ -29,7 +29,7 @@ exports.registration = async (req,res) => {
             password: hashedPassword
         });
         
-      const newUser=await user.save()
+      const newUser = await user.save()
       res.status(201).send('Rejestracja przebiegła pomyślnie');
       } catch(error) {
         res.status(400).json({message:error.message})
@@ -39,13 +39,13 @@ exports.registration = async (req,res) => {
 exports.logging = async (req,res) => {
 
     const {error} = loginValidation(req.body)
-     if(error) return res.status(400).send('Podane dane nie spełniają kryterium.');
+     if(error) return res.status(400).send('Podane dane nie spełniają kryterium');
 
     const user = await User.findOne({login: req.body.login});
-     if(!user) return res.status(400).send('Podany login/hasło nie istnieje.')
+     if(!user) return res.status(400).send('Podany login/hasło nie istnieje')
 
     const validPass = await bcrypt.compare(req.body.password, user.password)
-    if(!validPass) return res.status(400).send('Podany login/hasło nie istnieje.')
+    if(!validPass) return res.status(400).send('Podany login/hasło nie istnieje')
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
     res.header('auth-token', token).header('_id',user._id).send('Jesteś zalogowany!')
