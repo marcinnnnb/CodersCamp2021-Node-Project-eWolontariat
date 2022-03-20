@@ -522,7 +522,10 @@
             {
               "name": "volunteeer",
               "in": "body",
-              "description": "Create comments of volunteer with given ID"
+              "description": "Create comments of volunteer with given ID",
+              "schema": {
+                "$ref": "#/definitions/commentVolunteer"
+              }
             },
             {
               "name": "auth-token",
@@ -561,7 +564,7 @@
               "type": "string"
             },
             {
-              "name": "id",
+              "name": "commentId",
               "in": "path",
               "required": true,
               "description": "ID of comment",
@@ -570,10 +573,7 @@
           ],
           "responses": {
             "200": {
-              "description": "Comments of volunteer was deleted",
-              "schema": {
-                "$ref": "#/definitions/commentVolunteer"
-              }
+              "description": "Comments of volunteer was deleted"
             }
           }
         }
