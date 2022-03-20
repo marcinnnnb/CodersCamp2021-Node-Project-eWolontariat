@@ -552,11 +552,28 @@
               "required": true,
               "description": "Generated token",
               "type": "string"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of volunteer",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of comment",
+              "type": "string"
             }
           ],
           "responses": {
             "200": {
-              "description": "Comments of volunteer was deleted"
+              "description": "Comments of volunteer was deleted",
+              "schema": {
+                "$ref": "#/definitions/commentVolunteer"
+              }
             }
           }
         }
@@ -580,7 +597,10 @@
             {
               "name": "volunteeer",
               "in": "body",
-              "description": "Create rate of volunteer with given ID"
+              "description": "Create rate of volunteer with given ID",
+              "schema": {
+                "$ref": "#/definitions/rate"
+              }
             }
           ],
           "responses": {
@@ -923,6 +943,32 @@
           "content": "Świetny pomysł!"  
         }
       },
+      "commentVolunteer": {
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        },
+        "example":{
+          "content": "Bardzo dobry wolontariusz, polecam!"  
+        }
+      },
+      "rate": {
+        "required": [
+          "rate"
+        ],
+        "properties": {
+          "rate": {
+            "type": "number"
+          }
+        },
+        "example":{
+          "rate": "4"  
+        }
+      },
       "user": {
         "required": [
           "_id",
@@ -1125,8 +1171,6 @@
           }
         },
         "example":{
-          "firstName": "",
-          "lastName": "",
           "catgeories":"Excel",
           "description": "Bardzo dobrze sobię radzę z excelem. Chętnie pomogę",
           "shortDescription":"Bardzo dobrze sobię radzę z excelem. Chętnie pomogę"
