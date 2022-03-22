@@ -842,7 +842,10 @@
             {
               "name": "category",
               "in": "body",
-              "description": "Category that we want to create"
+              "description": "Category that we want to create",
+              "schema": {
+                "$ref": "#/definitions/category"
+              }
             }
           ],
           "produces": [
@@ -967,6 +970,29 @@
         },
         "example":{
           "rate": "4"  
+        }
+      },
+      "category": {
+        "required": [
+          "color",
+          "name",
+          "icon"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          }
+        },
+        "example":{
+          "name":"Opieka nad osobą starszą",
+          "color":"primary",
+          "icon":"ComputerIcon" 
         }
       },
       "user": {
@@ -1171,7 +1197,7 @@
           }
         },
         "example":{
-          "catgeories":"Excel",
+          "catgeories":"6239eb0b1bad29001672e69b",
           "description": "Bardzo dobrze sobię radzę z excelem. Chętnie pomogę",
           "shortDescription":"Bardzo dobrze sobię radzę z excelem. Chętnie pomogę"
         }
