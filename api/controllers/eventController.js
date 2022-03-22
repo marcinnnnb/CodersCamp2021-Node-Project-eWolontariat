@@ -23,6 +23,7 @@ exports.getAllEvents = async (req, res) => {
           },
         })
         .sort({ dateStarted: 'desc' })
+        .limit(req.query.limit)
         .exec();
     }
 
