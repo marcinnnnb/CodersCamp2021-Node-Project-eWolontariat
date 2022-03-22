@@ -5,9 +5,9 @@ const auth= require('../middleware/VolunteerMiddleware')
 
 
 //getting one
-router.get('/comment/:id', commentsController.getOneComment);
+router.get('/:id', commentsController.getOneComment);
 //updating one 
-router.put('/comment/:id', auth.Userdata, commentsController.updateComment);
+router.put('/:id', auth.Userdata, commentsController.updateComment);
 
 
 module.exports=router
