@@ -13,7 +13,7 @@ exports.getAllEvents = async (req, res) => {
         .populate({
           path: 'categories',
           match: {
-            name: req.query.category || { $regex: '/.*/g' },
+            name: req.query.category,
           },
         })
         .sort({ dateStarted: 'desc' })
@@ -29,9 +29,9 @@ exports.getAllEvents = async (req, res) => {
     } else if(req.query.search) {
       events = await Event.find({
         $or: [
-          { title: { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$` + '.*' } },
-          { description: { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$` + '.*' } },
-          { shortDescription: { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$` + '.*' } },
+          { title: { $regex:  req.query.search.trim(), $options: 'i'} },
+          { description: { $regex:  req.query.search.trim(), $options: 'i'}  },
+          { shortDescription: { $regex:  req.query.search.trim(), $options: 'i'}  },
         ],
       })
         .populate('categories')
