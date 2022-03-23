@@ -37,7 +37,8 @@ exports.loadPicture = async (req, res) => {
                     
                     item.save();
                     res.status(201).json({
-                        message: `Picture id: ${picture.id} saved successfully!`
+                        message: `Picture saved successfully!`,
+                        pictureId: picture.id
                       });
             }); 
             

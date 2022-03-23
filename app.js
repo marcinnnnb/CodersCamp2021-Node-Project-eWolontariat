@@ -43,7 +43,7 @@ mongoose
     console.log('Connection failed', error);
   });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.json());
