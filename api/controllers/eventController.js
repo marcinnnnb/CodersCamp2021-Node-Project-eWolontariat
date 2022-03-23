@@ -8,7 +8,25 @@ exports.getAllEvents = async (req, res) => {
   try {
     if (!req.query.category && !req.query.search) {
       events = await Event.find().sort({ dateStarted: 'desc' }).populate('categories');
-    } else {
+    } else if(req.query.category) {
+      events = await Event.find()
+        .populate({
+          path: 'categories',
+          match: {
+            name: req.query.category || { $regex: '/.*/g' },
+          },
+        })
+        .sort({ dateStarted: 'desc' })
+        .limit(Number(req.query.limit)+1)
+        .exec();
+
+        events = events.filter(function (event) {
+          if (Array.isArray(event.categories)) {
+            return event.categories.length > 0;
+          }
+        });
+
+    } else if(req.query.search) {
       events = await Event.find({
         $or: [
           { title: { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$` + '.*' } },
@@ -16,22 +34,12 @@ exports.getAllEvents = async (req, res) => {
           { shortDescription: { $regex: '.*' + `^((?!${req.query.search?.trim()}).)*$` + '.*' } },
         ],
       })
-        .populate({
-          path: 'categories',
-          match: {
-            name: req.query.category,
-          },
-        })
+        .populate('categories')
         .sort({ dateStarted: 'desc' })
         .limit(Number(req.query.limit)+1)
         .exec();
     }
-
-    events = events.filter(function (event) {
-      if (Array.isArray(event.categories)) {
-        return event.categories.length > 0;
-      }
-    });
+    
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
