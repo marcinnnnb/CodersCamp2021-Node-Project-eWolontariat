@@ -1,7 +1,4 @@
 const Comment = require('../models/commentsModel')
-const Event = require("../models/eventModel")
-const VolunteerModel = require('../models/VolunteerModel')
-//const Volunteer = require("../models/VolunteerModel")
 
 // Get one comment
 exports.getOneComment= async (req,res)=>{
@@ -64,19 +61,19 @@ exports.getOneComment= async (req,res)=>{
     //delete comment
 
     exports.deleteComment = async (body) => {
-    
-        try {
-          const deletedComment = await Comment
-            .findByIdAndRemove(
-              {_id: body.id}
-            )
-            .exec()
-      
-          if (!deletedComment) {
-            throw new Error (' Nie ma takiego komentarza')
-          }
-      
-        } catch (error) {
-          console.error(error)
+
+      try {
+        const deletedComment = await Comment
+          .findByIdAndRemove(
+            {_id: body.id}
+          )
+          .exec()
+
+        if (!deletedComment) {
+          throw new Error (' Nie ma takiego komentarza')
         }
-      };
+
+      } catch (error) {
+        throw error;
+      }
+    };

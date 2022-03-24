@@ -129,17 +129,22 @@ exports.allVolunteers = async (req, res, next) => {
     res.status(200).json(comment)
   }
 
-  exports.deleteVolunteerComment = async (req, res) => {  
+  exports.deleteVolunteerComment = async (req, res) => { 
 
     try {
-      await Volunteer.findOneAndUpdate(
-        { _id: req.params.id}, 
-        { $pull: { comments:{_id: req.params.commentId } } })
-      await deleteComment({id : req.params.commentId}); 
-     } catch (error) {
-      return res.status(200);
-    };
-    return res.status(201).json({ message: `Komentarz usunięty!`});
+     await deleteComment({id : req.params.commentId}).catch(err => {
+        throw err;
+      }); 
+     await Volunteer.findOne( { _id: req.params.id}).then(volunteer => {
+       volunteer.comments.pull(req.params.commentId)
+       volunteer.save()
+     });
+
+    } catch (error) {
+      return res.send(error.message);
+    }
+
+    return res.status(201).json({ message: 'Komentarz usunięty!'});
   }
 
 
