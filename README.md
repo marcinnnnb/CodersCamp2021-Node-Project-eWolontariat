@@ -30,7 +30,7 @@ Aplikacja została wykonana przez uczestników kursu pod okiem dwóch mentorów.
 
 ### Demo
 
-Wersja demonstracyjna aplikacji jest dostępna [TUTAJ] (https://whispering-oasis-16160.herokuapp.com/).
+Wersja demonstracyjna aplikacji jest dostępna [TUTAJ](https://whispering-oasis-16160.herokuapp.com/).
 
 ### Cel projektu
 
