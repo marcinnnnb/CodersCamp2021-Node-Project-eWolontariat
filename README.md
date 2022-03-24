@@ -30,7 +30,7 @@ Aplikacja została wykonana przez uczestników kursu pod okiem dwóch mentorów.
 
 ### Demo
 
-Wersja demonstracyjna aplikacji jest dostępna [TUTAJ].
+Wersja demonstracyjna aplikacji jest dostępna [TUTAJ] (https://whispering-oasis-16160.herokuapp.com/).
 
 ### Cel projektu
 
@@ -72,7 +72,6 @@ W trakcie developmentu wykorzystujemy:
 * Wykonane przez nasz zespół REST API pozwala na obsługę zapytań: __GET__, __POST__, __DELETE__, __PUT__, __PATCH__.
 * Umożliwia rejestrację oraz logowanie użytkownika.
 * Zapewnia hashowanie hasła i bezpieczne jego przechowywanie w bazie danych.
-* Umożliwia wysłanie e-maila do użytkownika z informacją o rejestracji.
 * Zabezpiecza dostęp do określonych zapytań poprzez autentykacje oraz autoryzacje(dostep tylko dla użytkowników zalogowanych).
 * Dzięki wykorzystaniu kodowania base64 przesyłamy na serwer pliki graficzne, które będą później wykorzystane przez front-end. .
 * Wykonane REST API korzysta z podwójnej walidacji wprowadzanych danych: wbudowanej w mongoose podczas pisania schematu oraz z walidacji poprzez obiekt __joi__.
