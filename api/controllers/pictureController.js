@@ -13,7 +13,7 @@ exports.getPictureById = async (req, res) => {
     
     return (
         res.setHeader('Content-Type','image/jpeg'),
-        res.send(picture.img.data.toString('base64')) )
+        res.send(picture.img.data) )
 };
 
 exports.loadPicture = async (req, res) => {
